@@ -40,4 +40,8 @@ class Lobro {
         this.isbn = isbn;
     }
 
+    toString(){
+        return this.GetTitulo + " " + this.GetAutor + " " + this.GetPais + " " + this.GetIsbn;
+    }
+
 }

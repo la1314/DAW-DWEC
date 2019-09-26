@@ -1,4 +1,4 @@
-class Cliente {
+export default class Cliente {
 
     constructor (nombre, direccion, dni, telefono) {
 
@@ -8,36 +8,43 @@ class Cliente {
         this.telefono = telefono;
     }
 
-    get GetNombre(){
+    getNombre(){
         return this.nombre;
     }
     
-    get GetDireccion(){
+    getDireccion(){
         return this.direccion;
     }
 
-    get GetDni(){
+    getDni(){
         return this.dni;
     }
 
-    get GetTelefono(){
+    getTelefono(){
         return this.telefono;
     }
 
-    set SetNombre(nombre){
-        this.nombre = nombre;
+   
+    setNombre(value){
+        this.nombre = value;
     }
 
-    set SetDireccion(direccion){
-        this.direccion = direccion;
+    setDireccion(value){
+        this.direccion = value;
     }
 
-    set SetDni(dni){
-        this.dni = dni;
+
+   setDni(value){
+        this.dni = value;
     }
 
-    set SetTelefono(telefono){
-        this.telefono = telefono;
+
+    setTelefono(value){
+        this.telefono = value;
+    }
+
+    toString(){
+        return this.nombre + " " + this.direccion + " " + this.dni + " " + this.telefono;
     }
 
 }
