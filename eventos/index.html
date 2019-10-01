@@ -17,55 +17,58 @@
     
     <form action="">
 
+        <h1>Forulario Total</h1>
+
         <div>
-            <label for="Name">Nombre</label>
-            <input type="text" placeholder="Pera" id="_nombre">
+            <label for="Name">Nombre:</label>
+            <input type="text" onblur="comprobarNombre(this)" >
         </div>
 
         <br> 
 
         <div>
-            <label for="Apellido">Apellido</label> 
-            <input type="text" placeholder="Asesina" id="_apellido">
+            <label for="Apellido">Apellido:</label> 
+            <input type="text" onblur="comprobarApellido(this)">
         </div>
 
         <br>
 
         <div>
-            <label for="e-mail">e-mail</label>
-            <input type="text" placeholder="patata_explosiva@gmail.com" id="_mail">
+            <label for="e-mail">e-mail:</label>
+            <input type="text" onblur="comprobarEmail(this)">
         </div>
 
         <br>
 
         <div>  
-            <label for="DNI">DNI</label>
-            <input type="text" placeholder="DNI" id="_dni">
+            <label for="DNI">DNI:</label>
+            <input type="text" onblur="comprobarDNI(this)">
         </div>
 
         <br>
            
         <div>
-            <label for="Password">Password</label>
-            <input type="text" placeholder="Contraseña" id="_password">
+            <label for="Password">Password:</label>
+            <input type="text" onblur="comprobarPassword(this)">
         </div>
 
         <br>
 
         <div>
-            <label for="Repetir password">Repetir password</label>
-            <input type="text" placeholder="Repetir contraseña" id="_repassword">
+            <label for="Repetir password">Repetir password:</label>
+            <input type="text" >
         </div>
     
         <br>
 
         <div>
-            <label for="IP Equipo">IP Equipo</label>
-            <input type="text" placeholder="IP" id="_ip">
+            <label for="IP Equipo">IP Equipo:</label>
+            <input type="text" onblur="comprobarIP(this)">
         </div>
 
-        <button type="submit" onclick="formulario()">Enviar</button>
-       
+        
+        <button type="onsubmit" onclick="return comprobarFormulario()">Enviar</button>
+        
          
 
     </form>
