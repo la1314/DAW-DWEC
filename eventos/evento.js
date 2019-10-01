@@ -18,7 +18,8 @@ function comprobarFormulario(){
 
     let correcto = true;
 
-    if (nombre && apellido && email && dni && password && ip) {
+    if (nombre && apellido && email && dni && password && repassword && ip) {
+
         alert("Todo Correcto");
 
     } else {
@@ -47,7 +48,13 @@ function comprobarFormulario(){
           mensaje+= " IP \n"
         }
 
-        alert(mensaje);
+        if ( mensaje == "Hay errores en: \n") {
+          alert("Faltan casillas por rellenar")
+        } else {
+          alert(mensaje);
+        }
+
+
 
         correcto = false;
     }
