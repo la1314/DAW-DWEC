@@ -1,10 +1,10 @@
-var nombre;
-var apellido;
-var email;
-var dni;
-var password;
-var repassword;
-var ip;
+var nombre = "";
+var apellido = "";
+var email = "";
+var dni = "";
+var password = "";
+var repassword = "";
+var ip = "";
 
 var nombreValor = null;
 var apellidoValor  = null;
@@ -20,30 +20,34 @@ function comprobarFormulario(){
 
     if (nombre && apellido && email && dni && password && ip) {
         alert("Todo Correcto");
-        
+
     } else {
-        
-        alert("Hay errores")
+
+        let mensaje = "Hay errores en: \n";
 
         if(!nombre && nombreValor != null){
-            nombreValor.style.backgroundColor = "red";
-            alert("Nombre");
+          mensaje+= " Nombre \n";
         }
         if(!apellido && apellidoValor != null ){
-            apellidoValor.style.backgroundColor = "red";
+          mensaje+= " Apellido \n"
         }
         if(!email && emailValor != null){
-            emailValor.style.backgroundColor = "red";
+          mensaje+= " e-mail \n"
         }
         if(!dni && dniValor != null){
-            dniValor.style.backgroundColor = "red";
+          mensaje+= " DNI \n"
         }
         if(!password && passwordValor != null){
-            passwordValor.style.backgroundColor = "red";
+          mensaje+= " Password \n"
+        }
+        if(!repassword && repasswordValor != null){
+          mensaje+= " Repetir password \n"
         }
         if(!ip && ipValor != null){
-            ipValor.style.backgroundColor = "red";
+          mensaje+= " IP \n"
         }
+
+        alert(mensaje);
 
         correcto = false;
     }
@@ -58,11 +62,12 @@ function comprobarNombre(ob){
     let comprobacion = ob.value;
     let patron = /^[A-Za-zÁÉÍÓÚáéíóú+\s]+$/;
 
-    if (patron.test(comprobacion)) {
-        
-        ob.style.backgroundColor = "white";
-        correcto = true;
-    
+    if (!patron.test(comprobacion) && comprobacion != "") {
+
+        ob.value = "¡ERROR!";
+
+    }else {
+          correcto = true;
     }
 
     nombre = correcto;
@@ -76,11 +81,12 @@ function comprobarApellido(ob){
     let comprobacion = ob.value;
     let patron = /^[A-Za-zÁÉÍÓÚáéíóú+\s]+$/;
 
-    if (patron.test(comprobacion)) {
-        
-        ob.style.backgroundColor = "white";
-        correcto = true;
-    
+    if (!patron.test(comprobacion) && comprobacion != "") {
+
+        ob.value = "¡ERROR!";
+
+    }else {
+          correcto = true;
     }
 
     apellido = correcto;
@@ -93,11 +99,13 @@ function comprobarEmail(ob){
     let correcto = false;
     let comprobacion = ob.value;
     let patron = /\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-    
-    if (patron.test(comprobacion)) {
 
-        correcto = true;
-        ob.style.backgroundColor = "white";
+    if (!patron.test(comprobacion) && comprobacion != "") {
+
+        ob.value = "¡ERROR!";
+
+    }else {
+          correcto = true;
     }
 
     emailValor = ob;
@@ -111,11 +119,12 @@ function comprobarDNI(ob){
     let comprobacion = ob.value;
     patron = /\d{8}[a-z A-Z]/;
 
-    if (patron.test(comprobacion)) {
+    if (!patron.test(comprobacion) && comprobacion != "") {
 
-        correcto = true;
-        ob.style.backgroundColor = "white";
+        ob.value = "¡ERROR!";
 
+    }else {
+          correcto = true;
     }
 
     dniValor = ob;
@@ -127,17 +136,41 @@ function comprobarPassword(ob){
 
     let correcto = false;
     let comprobacion = ob.value;
-    let patron = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d){8,15}/;
+    let patron = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
 
-    if (patron.test(comprobacion)) {
+    if (!patron.test(comprobacion) && comprobacion != "") {
 
-        correcto = true;
-        ob.style.backgroundColor = "white";
+        ob.value = "¡ERROR!";
 
+    }else {
+          correcto = true;
     }
 
     passwordValor = ob;
     password = correcto;
+
+}
+
+function comprobarRepassword(ob){
+
+    let correcto = false;
+    let comprobacion = ob.value;
+    let patron = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
+
+    if (patron.test(comprobacion) && passwordValor.value == comprobacion) {
+
+        correcto = true;
+
+    }else {
+
+        if (comprobacion != "") {
+            ob.value = "¡ERROR!";
+        }
+
+    }
+
+    repasswordValor = ob;
+    repassword= correcto;
 
 }
 
@@ -146,10 +179,13 @@ function comprobarIP(ob){
     let comprobacion = ob.value;
     let patron = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/ ;
     let correcto = false;
-    if (patron.test(comprobacion)) {
 
-        correcto = true;
-        ob.style.backgroundColor = "white";
+    if (!patron.test(comprobacion) && comprobacion != "") {
+
+        ob.value = "¡ERROR!";
+
+    }else {
+          correcto = true;
     }
 
     ipValor = ob;
