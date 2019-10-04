@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+    
+    body {
+        height: 100%;
+        width: 100%;
+    }
+
+    #_principal {
+        margin-left: auto;
+        margin-right: auto;
+        height: 80%;
+        width: 80%;
+    }
+
+    #_Mierda, #_Mierda2 {
+
+        width: 45%;
+        height: 100%;
+        border: solid 1px pink;
+
+    }
+
+    #_Mierda {
+        float: left;
+    }
+
+    #_Mierda2 {
+        float: right;
+    }
+
+   
+
+    </style>
+
+    <script>
+
+            var n = 1;
+
+            function crearParrafo(){
+
+                if (n%2 != 0) {
+                    var ob = document.getElementById("_Mierda");
+                } else {
+                    var ob = document.getElementById("_Mierda2");
+                }
+                var parrafo = document.createElement("p");
+                var texto = document.createTextNode("ÒwÓ > uwu");
+                parrafo.appendChild(texto);
+                ob.appendChild(parrafo);
+                n++;
+            }
+        
+    </script>
+    
+
+</head>
+<body>
+
+    <div ID="_principal">
+
+            <div ID="_Mierda">
+
+        
+            </div>
+        
+            <div ID="_Mierda2">
+        
+                
+            </div>
+            <button onclick="crearParrafo()">Crea un parrafo, prro</button>
+    </div>
+    
+    
+   
+
+    
+
+</body>
+</html>
