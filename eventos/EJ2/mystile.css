@@ -1,0 +1,53 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+._contenedores {
+    
+    margin: 15px;
+    float: left;
+    width: 300px;
+    height: 350px;
+
+}
+._cuadrado{
+
+    width: 300px;
+    height: 300px;
+    border: solid 1px pink;
+    -webkit-box-shadow: 10px 10px 4px 0px rgba(102,102,102,0.96);
+    -moz-box-shadow: 10px 10px 4px 0px rgba(102,102,102,0.96);
+    box-shadow: 10px 10px 4px 0px rgba(102,102,102,0.96);
+    /*
+    border-radius: 200px 200px 200px 200px;
+    -moz-border-radius: 200px 200px 200px 200px;
+    -webkit-border-radius: 200px 200px 200px 200px;
+    border: 0px solid #000000;
+    */
+}
+
+#_caja1 {
+    background-color: red;
+}
+
+#_caja2 {
+    background-color: blue;
+}
+
+#_caja3 {
+    background-color: green;
+}
+
+#_caja4 {
+    background-color: black;
+}
+
+._boton {
+    
+    margin-top: 20px;
+   
+}
+
+
