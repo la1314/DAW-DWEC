@@ -21,27 +21,35 @@ function quitarRedondeo(ob){
     ob.style.mozBorderRadius = null;
     ob.style.webkitBorderRaius = null;
     ob.style.border = null;
-
 }
 
 function oneclick(ob){
 
-  ob.style.border = 0;
-  ob.style.webkitBoxShadow = "0px 0px 0px 0px rgba(0,10,0,0)";
+  ob.style.webkitBoxShadow = "0px 0px 0px 0px rgba(0,0,0,0)";
   ob.style.mozBoxShadow = "0px 0px 0px 0px rgba(0,0,0,0)";
   ob.style.boxShadow = "0px 0px 0px 0px rgba(0,0,0,0)";
 }
 
 function twoclick(ob){
-  ob.style.transition = "1s";
+
+  ob.style.transition = "box-shadow 1s";
   ob.style.webkitBoxShadow = "inset 0px 0px 35px -2px rgba(0,0,0,0.75)";
   ob.style.mozBoxShadow = "inset 0px 0px 35px -2px rgba(0,0,0,0.75)";
   ob.style.boxShadow = "inset 0px 0px 35px -2px rgba(0,0,0,0.75)";
 }
 
-function eliminar(ob){
+function eliminar(ob, caja){
 
+    caja.style.transition = "1s";
+    caja.style.width = "0px";
+    caja.style.height = "0px";
+    ob.style.transition = "1s";
+    ob.style.display = "none";
+    
     padre = ob.parentNode;
-    padre.remove(ob);
+    setTimeout(function(){padre.remove()}, 900);
 
 }
+
+
+
