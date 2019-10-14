@@ -1,107 +1,149 @@
-window.onload = function () {
+window.onload = function() {
 
-    var pantallaTexto;
+  var pantallaTexto;
 
-    //Se guardan las clases en un vector a las cuales luego se les añadira un EventListener
-    var vectorBotones = document.getElementsByClassName("boton");
-    var pantalla = document.getElementsByTagName("input");
+  //Se guardan las clases en un vector a las cuales luego se les añadira un EventListener
+  var vectorBotones = document.getElementsByClassName("boton");
+  var pantalla = document.getElementsByTagName("input");
 
+  var devolverValor = function() {
 
-    var devolverValor = function () {
+    let cadena = pantalla[0].value;
+    let valor = this.innerText;
 
+    cadena += valor;
+    cadena = comprobarValor(cadena, valor);
 
-        let cadena = pantalla[0].value;
-        let valor = this.innerText;
-        cadena += valor;
-        cadena = comprobarValor(cadena);
+    pantalla[0].value = cadena;
 
-        // pasarlo a una funcion la cual comprobara el valor y devolvera la cadena
-        // dentro de dicha funcio habrá un Switch case para determinar los caracteres
+  };
 
-       // administrarCaracter(valor, cadena);
+  function asignarSombra() {
+    this.classList.remove("quitarSombra");
+    this.classList.add("sombraBotones");
+  }
 
-        pantalla[0].value = cadena;
+  function quitarSombra() {
+    this.classList.remove("sombraBotones");
+    this.classList.add("quitarSombra");
+  }
 
-    };
-
-    // Itera añadiendo un event listener a cada boton
-    for (var i = 0; i < vectorBotones.length; i++) {
-        vectorBotones[i].addEventListener('click', devolverValor, false);
-    }
+  // Itera añadiendo un event listener a cada boton
+  for (var i = 0; i < vectorBotones.length; i++) {
+    vectorBotones[i].addEventListener('click', devolverValor, false);
+    vectorBotones[i].addEventListener('click', asignarSombra, false);
+    vectorBotones[i].addEventListener('mouseout', quitarSombra, false);
+  }
 
 
 }
 
 //Funcion que verificara los valores dentro de la pantalla para que sean correctos a la hora de imprimirlos
-function comprobarValor(value) {
+function comprobarValor(value, caracter) {
 
-    let cadena = value;
-    let primerCaracter = value.substring(0, 1);
+  let cadena = value;
+  if (cadena.length == 2 && (cadena.substring(0, 1) == 0)) {
+    cadena = value.substring(1);
+  }
 
-    if (cadena.length > 0 && (primerCaracter == "" || primerCaracter == 0)) {
-        cadena = value.substring(1);
-    }
+  if (cadena.substring(0, cadena.length - 1) == "Infinity") {
+    cadena = caracter;
+  }
 
-    return cadena;
+  switch (caracter) {
+    case "«":
+      cadena = borrarCaracter(cadena);
+      break;
+    case "C":
+      cadena = limpiarPantalla();
+      break;
+    case "x":
+      cadena = asignarMultiplicacion(cadena);
+      break;
+    case "-":
+      cadena = asignarResta(cadena);
+      break;
+    case "+":
+      cadena = asignarSuma(cadena);
+      break;
+    case "/":
+      cadena = asignarDivision(cadena);
+      break;
+    case "=":
+      cadena = calcular(cadena);
+      break;
+    case "%":
+      cadena = asignarPorcentaje(cadena);
+      break;
+
+  }
+
+  return cadena;
 
 }
 
 //Función que se lanza al encontrarse con el simbolo o tecla de eliminar caeda caracter
 function borrarCaracter(cadena) {
 
-    if (cadena.length > 2) {
+  if (cadena.length > 2) {
+    cadena = cadena.substring(0, cadena.length - 2);
+  } else {
+    cadena = "0";
+  }
 
-        cadena = cadena.substring(0, cadena.length - 2);
-
-    } else {
-        cadena = "0";
-    }
-    return cadena;
+  return cadena;
 }
 
 function limpiarPantalla() {
-    return "0";
+  return "0";
 }
 
-function administrarCaracter(caracter, cadena) {
+function asignarSuma(operando) {
 
-    switch (caracter) {
-        case "«":
-            cadena = borrarCaracter(cadena);
-            break;
-        case value:
+  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+    operando = operando.substring(0, operando.length - 2) + "+";
+  }
+  return operando;
 
-            break;
-        case "C":
-            cadena = limpiarPantalla()
-            break;
-        case "%":
+}
 
-            break;
-        case "/":
+function asignarResta(operando) {
+  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+    operando = operando.substring(0, operando.length - 2) + "-";
+  }
+  return operando;
+}
 
-            break;
-        case "-":
+function asignarMultiplicacion(operando) {
 
-            break;
-        case "+":
+  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+    operando = operando.substring(0, operando.length - 2) + "*";
+  } else {
+    operando = operando.substring(0, operando.length - 1) + "*";
+  }
+  return operando;
+}
 
-            break;
-        case "x":
+function asignarDivision(operando) {
+  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+    operando = operando.substring(0, operando.length - 2) + "/";
+  }
+  return operando;
+}
 
-            break;
-        case ".":
+// Tuinki del futuro se encargara de esta pedazo de mierda ÒwÓ
+function asignarPorcentaje(operando) {
 
-            break;
-        case "()":
+  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+    operando = operando.substring(0, operando.length - 2) + "%";
+  }
+  return operando;
+}
 
-            break;
-        case "=":
+function calcular(cadena) {
 
-            break;
+  cadena = cadena.substring(0, cadena.length - 1);
+  cadena = eval(cadena);
 
-        default:
-            break;
-    }
-
+  return cadena;
 }
