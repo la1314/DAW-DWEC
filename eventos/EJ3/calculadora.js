@@ -10,7 +10,11 @@ window.onload = function() {
 
     let cadena = pantalla[0].value;
     let valor = this.innerText;
+    if (valor == "x") {
+      valor = "*";
+    }
     cadena += valor;
+
     cadena = comprobarValor(cadena, valor);
     pantalla[0].value = cadena;
 
@@ -51,7 +55,7 @@ function comprobarValor(value, caracter) {
     cadena = caracter;
   }
 
-  if (cadena.length > 1) {
+  if (cadena.length > 1 || caracter == ".") {
     switch (caracter) {
       case "«":
         cadena = borrarCaracter(cadena);
@@ -59,7 +63,7 @@ function comprobarValor(value, caracter) {
       case "C":
         cadena = limpiarPantalla();
         break;
-      case "x":
+      case "*":
         cadena = asignarMultiplicacion(cadena);
         break;
       case "-":
@@ -79,6 +83,9 @@ function comprobarValor(value, caracter) {
         break;
       case "()":
         cadena = asignarParentesis(cadena);
+        break;
+      case ".":
+        cadena = asignarPunto(cadena);
         break;
     }
   }
@@ -105,15 +112,20 @@ function limpiarPantalla() {
 
 function asignarSuma(operando) {
 
-  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+  if (operando.substring(operando.length - 2, operando.length - 1) == ")") {
+    operando = operando.substring(0, operando.length - 1) + "+";
+  } else if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
     operando = operando.substring(0, operando.length - 2) + "+";
   }
+
   return operando;
 
 }
 
 function asignarResta(operando) {
-  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+  if (operando.substring(operando.length - 2, operando.length - 1) == ")") {
+    operando = operando.substring(0, operando.length - 1) + "-";
+  } else if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
     operando = operando.substring(0, operando.length - 2) + "-";
   }
   return operando;
@@ -121,16 +133,18 @@ function asignarResta(operando) {
 
 function asignarMultiplicacion(operando) {
 
-  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
-    operando = operando.substring(0, operando.length - 2) + "*";
-  } else {
+  if (operando.substring(operando.length - 2, operando.length - 1) == ")") {
     operando = operando.substring(0, operando.length - 1) + "*";
+  } else if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+    operando = operando.substring(0, operando.length - 2) + "*";
   }
   return operando;
 }
 
 function asignarDivision(operando) {
-  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
+  if (operando.substring(operando.length - 2, operando.length - 1) == ")") {
+    operando = operando.substring(0, operando.length - 1) + "/";
+  } else if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
     operando = operando.substring(0, operando.length - 2) + "/";
   }
   return operando;
@@ -148,20 +162,38 @@ function asignarPorcentaje(operando) {
 // Falta que los parentesis no entren en comflicto con las operaciones de arriba cuando ya hay un parentesis asignado
 function asignarParentesis(operando) {
   if (isNaN(operando.substring(operando.length - 3, operando.length - 2))) {
-    operando =  operando.substring(0, operando.length - 2);
+    operando = operando.substring(0, operando.length - 2);
   } else {
-      operando = "(" + operando.substring(0, operando.length - 2) + ")";
+    operando = "(" + operando.substring(0, operando.length - 2) + ")";
   }
   return operando;
 }
 
+function asignarPunto(operando) {
+
+    if (operando == 0) {
+      operando += ".";
+    }
+
+    if (operando.substring(0, operando.length-1).includes(".")) {
+      operando = operando.substring(0, operando.length-1);
+    }
+
+    return operando;
+}
+
 function calcular(cadena) {
 
-  if (isNaN(cadena.substring(cadena.length - 2, cadena.length - 1))) {
+  if (!isNaN(cadena.substring(cadena.length - 2, cadena.length - 1))) {
+    cadena = cadena.substring(0, cadena.length - 1);
+    cadena = eval(cadena);
+
+  } else if (cadena.substring(cadena.length - 2, cadena.length - 1) == ")") {
     cadena = cadena.substring(0, cadena.length - 1);
     cadena = eval(cadena);
   } else {
     cadena = cadena.substring(0, cadena.length - 1);
+
   }
 
   return cadena;
