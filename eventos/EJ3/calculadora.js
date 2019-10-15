@@ -119,7 +119,7 @@ function comprobarValor(value, caracter) {
 
 }
 
-//Función que se lanza al encontrarse con el simbolo o tecla de eliminar caeda caracter
+//Función que se lanza al encontrarse con el simbolo o tecla de eliminar cada caracter
 function borrarCaracter(cadena) {
 
   if (cadena.length > 2) {
