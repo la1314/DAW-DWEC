@@ -10,10 +10,8 @@ window.onload = function() {
 
     let cadena = pantalla[0].value;
     let valor = this.innerText;
-
     cadena += valor;
     cadena = comprobarValor(cadena, valor);
-
     pantalla[0].value = cadena;
 
   };
@@ -35,7 +33,6 @@ window.onload = function() {
     vectorBotones[i].addEventListener('mouseout', quitarSombra, false);
   }
 
-
 }
 
 //Funcion que verificara los valores dentro de la pantalla para que sean correctos a la hora de imprimirlos
@@ -46,36 +43,44 @@ function comprobarValor(value, caracter) {
     cadena = value.substring(1);
   }
 
-  if (cadena.substring(0, cadena.length - 1) == "Infinity") {
+  if (cadena.length == 1 && isNaN(cadena.substring(0, 1))) {
+    cadena = 0;
+  }
+
+  if (cadena.length > 1 && cadena.substring(0, cadena.length - 1) == "Infinity") {
     cadena = caracter;
   }
 
-  switch (caracter) {
-    case "«":
-      cadena = borrarCaracter(cadena);
-      break;
-    case "C":
-      cadena = limpiarPantalla();
-      break;
-    case "x":
-      cadena = asignarMultiplicacion(cadena);
-      break;
-    case "-":
-      cadena = asignarResta(cadena);
-      break;
-    case "+":
-      cadena = asignarSuma(cadena);
-      break;
-    case "/":
-      cadena = asignarDivision(cadena);
-      break;
-    case "=":
-      cadena = calcular(cadena);
-      break;
-    case "%":
-      cadena = asignarPorcentaje(cadena);
-      break;
-
+  if (cadena.length > 1) {
+    switch (caracter) {
+      case "«":
+        cadena = borrarCaracter(cadena);
+        break;
+      case "C":
+        cadena = limpiarPantalla();
+        break;
+      case "x":
+        cadena = asignarMultiplicacion(cadena);
+        break;
+      case "-":
+        cadena = asignarResta(cadena);
+        break;
+      case "+":
+        cadena = asignarSuma(cadena);
+        break;
+      case "/":
+        cadena = asignarDivision(cadena);
+        break;
+      case "=":
+        cadena = calcular(cadena);
+        break;
+      case "%":
+        cadena = asignarPorcentaje(cadena);
+        break;
+      case "()":
+        cadena = asignarParentesis(cadena);
+        break;
+    }
   }
 
   return cadena;
@@ -140,10 +145,24 @@ function asignarPorcentaje(operando) {
   return operando;
 }
 
+// Falta que los parentesis no entren en comflicto con las operaciones de arriba cuando ya hay un parentesis asignado
+function asignarParentesis(operando) {
+  if (isNaN(operando.substring(operando.length - 3, operando.length - 2))) {
+    operando =  operando.substring(0, operando.length - 2);
+  } else {
+      operando = "(" + operando.substring(0, operando.length - 2) + ")";
+  }
+  return operando;
+}
+
 function calcular(cadena) {
 
-  cadena = cadena.substring(0, cadena.length - 1);
-  cadena = eval(cadena);
+  if (isNaN(cadena.substring(cadena.length - 2, cadena.length - 1))) {
+    cadena = cadena.substring(0, cadena.length - 1);
+    cadena = eval(cadena);
+  } else {
+    cadena = cadena.substring(0, cadena.length - 1);
+  }
 
   return cadena;
 }
