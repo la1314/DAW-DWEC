@@ -10,9 +10,6 @@ window.onload = function () {
 
     let cadena = pantalla[0].value;
     let valor = this.innerText;
-    if (valor == "x") {
-      valor = "*";
-    }
     cadena += valor;
 
     cadena = comprobarValor(cadena, valor);
@@ -50,9 +47,14 @@ window.onload = function () {
       keyCode = "«";
       cadena += keyCode;
      
-    } else if (keyCode == "+" || keyCode == "-" || keyCode == "*" || keyCode == "/" || keyCode == "%"  || keyCode == "." || keyCode == "C") {
+    }else if (keyCode == "*") {
+      keyCode = "x";
+      cadena += keyCode;
+     
+    }else if (keyCode == "+" || keyCode == "-" || keyCode == "/" || keyCode == "%"  || keyCode == "." || keyCode == "C") {
       cadena += keyCode;
     }
+
     if (keyCode >= 0 || keyCode <= 9) {
       cadena += keyCode;
     }
@@ -64,7 +66,7 @@ window.onload = function () {
 
 }
 
-//Funcion que verificara los valores dentro de la pantalla para que sean correctos a la hora de imprimirlos
+//Función que se encarga de comprobar el caracter que se va añadir a la cadena cumple los requisitos necesarios
 function comprobarValor(value, caracter) {
 
   let cadena = value;
@@ -104,7 +106,7 @@ function comprobarValor(value, caracter) {
         cadena = calcular(cadena);
         break;
       case "%":
-        cadena = asignarPorcentaje(cadena);
+        cadena = asignarOperacion(cadena, caracter);
         break;
       case "()":
         cadena = asignarParentesis(cadena);
@@ -145,16 +147,6 @@ function asignarOperacion(operando, caracter){
   return operando;
 }
 
-function asignarPorcentaje(operando) {
-
-  if (isNaN(operando.substring(operando.length - 2, operando.length - 1))) {
-    operando = operando.substring(0, operando.length - 2) + "%";
-  }
-  return operando;
-}
-
-
-
 // Falta que los parentesis no entren en comflicto con las operaciones de arriba cuando ya hay un parentesis asignado
 function asignarParentesis(operando) {
   if (isNaN(operando.substring(operando.length - 3, operando.length - 2))) {
@@ -170,7 +162,6 @@ function asignarPunto(operando) {
   if (operando == 0) {
     operando += ".";
   }
-
   if (operando.substring(0, operando.length - 1).includes(".")) {
     operando = operando.substring(0, operando.length - 1);
   }
@@ -179,6 +170,9 @@ function asignarPunto(operando) {
 }
 
 function calcular(cadena) {
+
+  cadena = cadena.replace("x", "*");
+  cadena = cadena.replace("%", "/100*");
 
   if (!isNaN(cadena.substring(cadena.length - 2, cadena.length - 1))) {
     cadena = cadena.substring(0, cadena.length - 1);
