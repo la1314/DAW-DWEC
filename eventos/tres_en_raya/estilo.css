@@ -29,7 +29,7 @@ body {
     width: 100%;
     background-color: pink;
     display: grid;
-    transition: 0.5s;
+    transition: 0.07s;
     
 }
 
@@ -40,7 +40,6 @@ body {
     height: 80%;
     width: 80%;
     background-size: 100%;
-    
     
 }
 
@@ -53,5 +52,12 @@ body {
     width: 80%;
     background-size: 100%;
     
- 
+}
+
+.marcaUWU {
+    border: greenyellow solid 1px;
+}
+
+.marcaOWO {
+    border: red solid 1px;
 }

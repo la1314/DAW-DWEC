@@ -5,12 +5,8 @@ const classUWU = "uwu";
 const classOWO = "owo";
 const classTocado = "tocado";
 const classLibre = "libre";
-
-window.onload = function () {
-
-    crearMapa(fila, col);
-
-}
+const classTocadoUWU = "marcaUWU";
+const classTocadoOWO = "marcaOWO";
 
 function crearMapa(fila, col) {
 
@@ -44,7 +40,6 @@ function listener() {
 
     cuadrados = document.querySelectorAll('.cuadrado');
     cuadrados.forEach(element => element.addEventListener('click', owo));
-
 }
 
 function uwu() {
@@ -61,6 +56,8 @@ function uwu() {
         nodo.appendChild(div);
         nodo.classList.remove(classLibre);
         nodo.classList.add(classTocado);
+        nodo.classList.add(classTocadoUWU);
+
     }
 }
 
@@ -72,58 +69,110 @@ function owo() {
         this.appendChild(div);
         this.classList.remove(classLibre);
         this.classList.add(classTocado);
-        comprobarVictoria(classOWO);
-        uwu();
+        this.classList.add(classTocadoOWO);
+
+        
     }
 }
 
-function comprobarVictoria(clase){
+function comprobarVictoria() {
 
-     comprobarFilas(clase);
-    
+    let ganador = false;
+
+    if (!ganador) {
+        ganador = comprobarFilas(classTocadoOWO);
+    }
+
+    if (!ganador) {
+        ganador = comprobarColumnas(classTocadoOWO);
+    }
+
+    if (ganador) {
+
+        console.log("Ha ganado OWO");
+
+    } else {
+
+        if (!ganador) {
+            ganador = comprobarFilas(classTocadoUWU);
+        }
+
+        if (!ganador) {
+            ganador = comprobarColumnas(classTocadoUWU);
+        }
+
+        if (ganador) {
+
+            console.log("Ha ganado UWU");
+        }
+    }
+
 };
 
-function comprobarFilas(clase){
+function comprobarFilas(clase) {
 
-    let contador;
+    let booleano = false;
+    let contador = 0;
 
     for (let index = 0; index < fila; index++) {
-        for (let index = 0; index < col; index++) {
-            
-            let id = fila + "-" + col;
+        for (let index2 = 0; index2 < col; index2++) {
+
+            let id = index + "-" + index2;
             let nodo = document.getElementById(id);
 
-            if (nodo.firstElementChild) {
+            if (nodo.className.includes(clase)) {
 
-                let hijo = nodo.firstChild.classList;
+                contador++;
 
-                if (hijo == clase) {
-                    contador++;
-                    console.log(contador);
-                    
-                }else{
-                    contador = 0;
-                }
 
-            }else{
+            } else {
                 contador = 0;
             }
-            
+        }
+        if (contador == 3) {
+            booleano = true;
         }
     }
-   
+
+    return booleano;
+
 }
 
-function comprobarColumnas(clase){
+function comprobarColumnas(clase) {
+
+    let booleano = false;
+    let contador = 0;
 
     for (let index = 0; index < fila; index++) {
-        for (let index = 0; index < col; index++) {
-            
-            
+        for (let index2 = 0; index2 < col; index2++) {
+
+            let id = index2 + "-" + index;
+            let nodo = document.getElementById(id);
+
+            if (nodo.className.includes(clase)) {
+
+                contador++;
+
+            } else {
+                contador = 0;
+            }
+        }
+        if (contador == 3) {
+            booleano = true;
         }
     }
+
+    return booleano;
 }
 
-function comprobarDiagonales(clase){
+function comprobarDiagonales(clase) {
 
 }
+
+function init() {
+    crearMapa(fila, col);
+    document.getElementById('_contenedor').addEventListener('click', uwu);
+    window.addEventListener('click', comprobarVictoria);
+}
+
+window.onload = init;
