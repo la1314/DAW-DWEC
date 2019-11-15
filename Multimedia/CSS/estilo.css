@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    min-height: calc(100vh - 100px);
+
+}
+
+container {
+
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 0.5fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+        "reproductor reproductor reproductor lista"
+        "reproductor reproductor reproductor lista"
+        "reproductor reproductor reproductor lista"
+        "reproductor reproductor reproductor lista"
+        "reproductor reproductor reproductor lista";
+}
+
+#reproductor {
+
+    width: 100%;
+    height: 100vh;
+    grid-area: reproductor;
+    background-color: pink;
+}
+
+#lista {
+    width: 100%;
+    height: 100vh;
+    grid-area: lista;
+    background-color: black;
+}
