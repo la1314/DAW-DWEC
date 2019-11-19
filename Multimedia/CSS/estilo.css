@@ -8,22 +8,28 @@ container {
 
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr) 0.5fr;
-    grid-template-rows: auto;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: repeat(6, 1fr);
     grid-template-areas:
-        "reproductor reproductor reproductor lista"
-        "reproductor reproductor reproductor lista"
-        "reproductor reproductor reproductor lista"
-        "reproductor reproductor reproductor lista"
-        "reproductor reproductor reproductor lista";
+        "reproductor lista"
+        "reproductor lista"
+        "reproductor lista"
+        "reproductor lista"
+        "reproductor lista"
+        "reproductor lista";
 }
 
 #reproductor {
 
+    display: grid;
     width: 100%;
     height: 100vh;
     grid-area: reproductor;
     background-color: pink;
+}
+
+#video {
+    /*TODO*/
 }
 
 #lista {
@@ -31,6 +37,18 @@ container {
     height: 100vh;
     grid-area: lista;
     background-color: black;
+    display: grid;
+    grid-template-columns: 0.5fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-row-gap: 10px;
+    justify-content: center;
+}
+
+.videos {
+
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 #silenciar {
