@@ -19,6 +19,7 @@ container {
         "reproductor lista";
 }
 
+
 #reproductor {
 
     display: grid;
@@ -26,10 +27,33 @@ container {
     height: 100vh;
     grid-area: reproductor;
     background-color: pink;
+    justify-items: center;
+}
+
+#caja {
+    
+    align-self: center;
+    height: 450px;
+    width: 700px;
+    display: grid;
+  
 }
 
 #video {
-    /*TODO*/
+    height: 400px;
+    width: 100%;
+    background-size: cover;
+}
+
+#controles {
+    height: 50px;
+    width: 700px;
+    background-color: saddlebrown;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /*
+    transform: translateY(-50px) translateX(0);
+    */
 }
 
 #lista {
