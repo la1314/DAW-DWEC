@@ -51,6 +51,7 @@ container {
     background-color: saddlebrown;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    column-gap: 1px;
     /*
     transform: translateY(-50px) translateX(0);
     */
@@ -76,38 +77,42 @@ container {
 }
 
 #silenciar {
-
+    background-image: url('../ICONOS/baseline_volume_off_white_48dp.png');
 }
 
 #playPause {
-
+    background-image: url('../ICONOS/baseline_play_circle_filled_white_48dp.png');
 }
 
 #retroceder {
-
+    background-image: url('../ICONOS/baseline_fast_rewind_white_48dp.png');
 }
 
 #adelantar {
-
+    background-image: url('../ICONOS/baseline_fast_forward_white_48dp.png');
 }
 
 #reiniciar {
-
+    background-image: url('../ICONOS/baseline_replay_white_48dp.png');
 }
 
 #bajarVol {
-
+    background-image: url('../ICONOS/baseline_volume_down_white_48dp.png');
 }
 
 #subirVol {
-
+    background-image: url('../ICONOS/baseline_volume_up_white_48dp.png');
 }
 
-#reproducir {
+#silenciar, #playPause, #retroceder, #adelantar, #reiniciar, #bajarVol, #subirVol {
+
+    background-size:100% 100%;
+    border: solid 0.5px black;
 
 }
 
 #publicidad {
+    background-image: url('../ICONOS/');
     
 }
 
