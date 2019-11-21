@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,13 +11,25 @@
     </style>
     <script src='JS/script.js'></script>
 </head>
+
 <body>
     <container>
         <div id='reproductor'>
-            <div id='video'></div>
-            <div id='controles'></div>
+            <div id='caja'>
+                <video id='video'></video>
+                <div id='controles'>
+                    <div id='silenciar'></div>
+                    <div id='retroceder'></div>
+                    <div id='payPause'></div>
+                    <div id='adelantar'></div>
+                    <div id='reiniciar'></div>
+                    <div id='bajarVol'></div>
+                    <div id='subirVol'></div>
+                </div>
+            </div>
         </div>
         <div id='lista'></div>
     </container>
 </body>
+
 </html>
