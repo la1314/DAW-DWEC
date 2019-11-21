@@ -1,8 +1,15 @@
 function init() {
 
-    //TODO
-
+    let video = document.getElementById('video');
+    agregarVDefecto();
     agregarLista(6);
+
+}
+
+function agregarVDefecto(){
+
+    video.src = 'VIDEOS/thewae.mp4';
+    video.type = 'video/ogg';
 
 }
 
@@ -25,7 +32,7 @@ function agregarLista(nVideos) {
 
 
 function silence() {
-    //TODO
+    
 }
 
 function playPause() {
