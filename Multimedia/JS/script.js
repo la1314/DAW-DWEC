@@ -11,9 +11,9 @@ function init() {
 //Añade el video por defecto en el reproductor
 function agregarVDefecto() {
 
-  //video.src = 'VIDEOS/thewae.mp4';
+  video.src = 'VIDEOS/thewae.mp4';
   //video.src = 'https://www.youtube.com/embed/YoVJWZrS2WU';
-  //video.type = 'video/ogg';
+  video.type = 'video/ogg';
   video.addEventListener('click', playPause);
 
 }
@@ -21,22 +21,22 @@ function agregarVDefecto() {
 //TODO
 function agregarLista(nVideos) {
 
-
   let lista = document.getElementById('lista');
-
 
   for (let index = 0; index < nVideos; index++) {
 
     let videoLista = document.createElement('video');
-    //videoLista.style.backgroundImage = 'url("'+ArrayVideos[index]+'")';
-    //videoLista.src = ArrayVideos[index];
+    videoLista.src = ArrayVideos[index];
     videoLista.setAttribute('name', ArrayVideos[index]);
+    videoLista.type = 'video/ogg';
     videoLista.classList.add('videos');
-   
-    
-    //videoLista.type = 'video/ogg';
-    lista.appendChild(videoLista);
 
+    let div = document.createElement('div');
+    div.classList.add('divVideos');
+    div.style.height = videoLista.height;
+    div.style.width = videoLista.width;
+    lista.appendChild(videoLista);
+    lista.appendChild(div);
   }
 
 }

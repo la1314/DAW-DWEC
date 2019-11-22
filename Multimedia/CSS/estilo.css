@@ -77,6 +77,12 @@ container {
     width: 100%;
 }
 
+.divVideos {
+
+    z-index: 50;
+    position: absolute; 
+}
+
 #silenciar {
     background-image: url('../ICONOS/baseline_volume_off_white_48dp.png');
 }
