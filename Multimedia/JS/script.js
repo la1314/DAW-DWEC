@@ -4,8 +4,11 @@ function init() {
     agregarVDefecto();
     agregarLista(6);
 
+    agregarListenerControles();
+
 }
 
+//Añade el video por defecto en el reproductor
 function agregarVDefecto(){
 
     video.src = 'VIDEOS/thewae.mp4';
@@ -13,6 +16,7 @@ function agregarVDefecto(){
 
 }
 
+//TODO
 function agregarLista(nVideos) {
 
 
@@ -30,33 +34,91 @@ function agregarLista(nVideos) {
 
 }
 
+//Función que añade a los determinados crontroles del reproductor sus respectivos lister
+function agregarListenerControles(){
 
-function silence() {
-    
+  let divSilenciar = document.getElementById('silenciar');
+  divSilenciar.addEventListener('click', silence);
+
+  let divRetroceder = document.getElementById('retroceder');
+  divRetroceder.addEventListener('click', retroceder);
+
+  let divPlayPause = document.getElementById('playPause');
+  divPlayPause.addEventListener('click', playPause);
+
+  let divAdelantar = document.getElementById('adelantar');
+  divAdelantar.addEventListener('click', adelantar);
+
+  let divReiniciar = document.getElementById('reiniciar');
+  divReiniciar.addEventListener('click', reiniciar);
+
+  let divBajarVol = document.getElementById('bajarVol');
+  divBajarVol.addEventListener('click', bajarVol);
+
+  let divSubirVol = document.getElementById('subirVol');
+  divSubirVol.addEventListener('click', subirVol);
 }
 
-function playPause() {
-    //TODO
+//Funcion que comprueba si el video actual está muteado, de estarlo lo muteado en caso contrario quita el mute
+function silence() {
+
+  if (video.muted) {
+
+    video.muted = false;
+
+  }else {
+      video.muted = true;
+  }
+
 }
 
 function retroceder() {
     //TODO
 }
 
+//Función que dependiendo si el video actual se encuentra pausado reproducirá el video actual, por el contrario lo pausará
+function playPause() {
+
+  if (video.paused) {
+      video.play();
+  }else {
+    video.pause();
+  }
+
+}
+
 function adelantar() {
     //TODO
 }
 
+//Reinicia el video actual y lo vuelve a reproducir
 function reiniciar() {
-    //TODO
+    video.load();
+    playPause();
 }
 
+//Función que baja el volumen al video si el valor de este se encuentra por encima de 0, si el video esta muted está función lo desmueteara también
 function bajarVol() {
-    //TODO
+
+    if (video.muted) {
+      silence();
+    }
+
+    if (  video.volume > 0) {
+      video.volume = Math.round((video.volume - 0.1) * 10) / 10;
+    }
 }
 
+//Función que sube el volumen al video si el valor de este se encuentra por debajo de 1, si el video esta muted está función lo desmueteara también
 function subirVol() {
-    //TODO
+
+  if (video.muted) {
+    silence();
+  }
+
+  if (video.volume < 1) {
+      video.volume = Math.round((video.volume + 0.1) * 10) / 10;
+  }
 }
 
 function reproducir() {
@@ -86,4 +148,3 @@ ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
 ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
 ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
 ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
-
