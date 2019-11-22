@@ -1,18 +1,20 @@
 function init() {
 
-    let video = document.getElementById('video');
-    agregarVDefecto();
-    agregarLista(6);
+  let video = document.getElementById('video');
+  agregarVDefecto();
+  agregarLista(6);
 
-    agregarListenerControles();
+  agregarListenerControles();
 
 }
 
 //Añade el video por defecto en el reproductor
-function agregarVDefecto(){
+function agregarVDefecto() {
 
-    video.src = 'VIDEOS/thewae.mp4';
-    video.type = 'video/ogg';
+  //video.src = 'VIDEOS/thewae.mp4';
+  //video.src = 'https://www.youtube.com/embed/YoVJWZrS2WU';
+  //video.type = 'video/ogg';
+  video.addEventListener('click', playPause);
 
 }
 
@@ -20,22 +22,27 @@ function agregarVDefecto(){
 function agregarLista(nVideos) {
 
 
-    let lista = document.getElementById('lista');
+  let lista = document.getElementById('lista');
 
 
-    for (let index = 0; index < nVideos; index++) {
+  for (let index = 0; index < nVideos; index++) {
 
-        let video = document.createElement('div');
-        video.style.backgroundImage = 'url("'+ArrayVideos[index]+'")';
-        video.classList.add('videos');
-        lista.appendChild(video);
+    let videoLista = document.createElement('video');
+    //videoLista.style.backgroundImage = 'url("'+ArrayVideos[index]+'")';
+    //videoLista.src = ArrayVideos[index];
+    videoLista.setAttribute('name', ArrayVideos[index]);
+    videoLista.classList.add('videos');
+   
+    
+    //videoLista.type = 'video/ogg';
+    lista.appendChild(videoLista);
 
-    }
+  }
 
 }
 
 //Función que añade a los determinados crontroles del reproductor sus respectivos lister
-function agregarListenerControles(){
+function agregarListenerControles() {
 
   let divSilenciar = document.getElementById('silenciar');
   divSilenciar.addEventListener('click', silence);
@@ -66,8 +73,8 @@ function silence() {
 
     video.muted = false;
 
-  }else {
-      video.muted = true;
+  } else {
+    video.muted = true;
   }
 
 }
@@ -83,8 +90,8 @@ function retroceder() {
 function playPause() {
 
   if (video.paused) {
-      video.play();
-  }else {
+    video.play();
+  } else {
     video.pause();
   }
 }
@@ -92,27 +99,27 @@ function playPause() {
 //Funcion que adelanta el video en 10 seg
 function adelantar() {
 
-      tiempoActual = video.currentTime;
-      video.currentTime = tiempoActual + 10;
+  tiempoActual = video.currentTime;
+  video.currentTime = tiempoActual + 10;
 }
 
 //Reinicia el video actual y lo vuelve a reproducir
 function reiniciar() {
 
-    video.load();
-    playPause();
+  video.load();
+  playPause();
 }
 
 //Función que baja el volumen al video si el valor de este se encuentra por encima de 0, si el video esta muted está función lo desmueteara también
 function bajarVol() {
 
-    if (video.muted) {
-      silence();
-    }
+  if (video.muted) {
+    silence();
+  }
 
-    if (  video.volume > 0) {
-      video.volume = Math.round((video.volume - 0.1) * 10) / 10;
-    }
+  if (video.volume > 0) {
+    video.volume = Math.round((video.volume - 0.1) * 10) / 10;
+  }
 }
 
 //Función que sube el volumen al video si el valor de este se encuentra por debajo de 1, si el video esta muted está función lo desmueteara también
@@ -123,34 +130,39 @@ function subirVol() {
   }
 
   if (video.volume < 1) {
-      video.volume = Math.round((video.volume + 0.1) * 10) / 10;
+    video.volume = Math.round((video.volume + 0.1) * 10) / 10;
   }
 }
 
 function reproducir() {
-    //TODO
+  //TODO
 }
 
 function lanzarPublicidad() {
-    //TODO
+  //TODO
 }
 
+//Función que cambia los controles por clones sin listeners
 function deshabilitarBotones() {
-    //TODO
+
+  var controles = document.getElementById('controles'),
+    controlesClon = controles.cloneNode(true);
+  controles.parentNode.replaceChild(controlesClon, controles);
 }
 
 function barraProgresion() {
-    //TODO
+  //TODO
 }
+
 
 window.onload = init;
 
 
 let ArrayVideos = new Array();
 
-ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
-ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
-ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
-ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
-ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
-ArrayVideos.push('http://i.ytimg.com/vi/hLTgQ5SC-PU/sddefault.jpg');
+ArrayVideos.push('VIDEOS/thewae.mp4');
+ArrayVideos.push('VIDEOS/thewae.mp4');
+ArrayVideos.push('VIDEOS/thewae.mp4');
+ArrayVideos.push('VIDEOS/thewae.mp4');
+ArrayVideos.push('VIDEOS/thewae.mp4');
+ArrayVideos.push('VIDEOS/thewae.mp4');
