@@ -72,8 +72,11 @@ function silence() {
 
 }
 
+//Funcion que retrocede el video en 10 seg
 function retroceder() {
-    //TODO
+
+  tiempoActual = video.currentTime;
+  video.currentTime = tiempoActual - 10;
 }
 
 //Función que dependiendo si el video actual se encuentra pausado reproducirá el video actual, por el contrario lo pausará
@@ -84,15 +87,18 @@ function playPause() {
   }else {
     video.pause();
   }
-
 }
 
+//Funcion que adelanta el video en 10 seg
 function adelantar() {
-    //TODO
+
+      tiempoActual = video.currentTime;
+      video.currentTime = tiempoActual + 10;
 }
 
 //Reinicia el video actual y lo vuelve a reproducir
 function reiniciar() {
+
     video.load();
     playPause();
 }
