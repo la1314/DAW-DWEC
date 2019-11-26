@@ -72,16 +72,13 @@ container {
 
 .videos {
 
+    border: blue solid 1px;
     background-size: 100%;
-    height: 100%;
-    width: 100%;
+    background-repeat: no-repeat;
+    height: 98%;
+    width: 98%;
 }
 
-.divVideos {
-
-    z-index: 50;
-    position: absolute; 
-}
 
 #silenciar {
     background-image: url('../ICONOS/baseline_volume_off_white_48dp.png');
