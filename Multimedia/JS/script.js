@@ -13,7 +13,8 @@ function agregarVDefecto() {
 
   video.src = arrayVideos[3];
   video.type = 'video/mp4';
-  video.addEventListener('click', playPause);
+  
+  lanzarPublicidad();
 
 }
 
@@ -37,6 +38,8 @@ function agregarLista(nVideos) {
 
 //Función que añade a los determinados crontroles del reproductor sus respectivos lister
 function agregarListenerControles() {
+
+  video.addEventListener('click', playPause);
 
   let divSilenciar = document.getElementById('silenciar');
   divSilenciar.addEventListener('click', silence);
@@ -134,11 +137,48 @@ function subirVol() {
 function reproducir() {
  
   video.src = this.getAttribute('name');
-  playPause();
+  lanzarPublicidad();
 }
 
-function lanzarPublicidad() {
-  //TODO
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function lanzarPublicidad() {
+  
+  deshabilitarBotones();
+  let publicidad = document.createElement('div');
+  let boton = document.createElement('BUTTON');
+  let texto = document.createElement('div');
+  let texto2 = document.createElement('div');
+  texto.classList.add('textPublicidad');
+  texto2.classList.add('textPublicidad');
+  texto.innerHTML = "Publicidad de furros: ";
+  boton.innerText = "X";
+  boton.classList.add("cerrar");
+  publicidad.id = "publicidad";
+  publicidad.appendChild(boton);
+  publicidad.appendChild(texto);
+  publicidad.appendChild(texto2);
+  document.getElementById('caja').appendChild(publicidad);
+
+  for (let index = 3; index >= 0; index--) {
+    
+    await sleep(1000);
+    
+    texto2.innerHTML = index;
+    
+  }
+
+  boton.addEventListener('click', quitarPublicidad);
+  texto2.innerHTML = "Ya puede cerrar la publicidad"
+
+}
+
+function quitarPublicidad(){
+
+  agregarListenerControles();
+  document.getElementById("publicidad").remove();
 }
 
 //Función que cambia los controles por clones sin listeners
@@ -147,10 +187,13 @@ function deshabilitarBotones() {
   var controles = document.getElementById('controles'),
   controlesClon = controles.cloneNode(true);
   controles.parentNode.replaceChild(controlesClon, controles);
+  video.removeEventListener('click', playPause);
 }
 
 function barraProgresion() {
-  //TODO
+  
+    
+
 }
 
 

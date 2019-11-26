@@ -116,8 +116,28 @@ container {
 }
 
 #publicidad {
-    background-image: url('../ICONOS/');
     
+    position: absolute;
+    z-index: 99;
+    background-color: crimson;
+    height: 350px;
+    width: 350px;
+    transform: translateY(25px) translateX(180px);
+    display: grid;
+}
+
+.cerrar {
+
+    justify-self: end;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+
+}
+
+.textPublicidad {
+    margin: 0;
+    justify-self: center;
 }
 
 #barraProgresion {
