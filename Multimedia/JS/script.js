@@ -12,7 +12,6 @@ function init() {
 function agregarVDefecto() {
 
   video.src = 'VIDEOS/thewae.mp4';
-  //video.src = 'https://www.youtube.com/embed/YoVJWZrS2WU';
   video.type = 'video/ogg';
   video.addEventListener('click', playPause);
 
@@ -25,18 +24,13 @@ function agregarLista(nVideos) {
 
   for (let index = 0; index < nVideos; index++) {
 
-    let videoLista = document.createElement('video');
-    videoLista.src = ArrayVideos[index];
-    videoLista.setAttribute('name', ArrayVideos[index]);
-    videoLista.type = 'video/ogg';
+    let videoLista = document.createElement('videos');
+    videoLista.style.backgroundImage = 'url('+arrayIMG[index]+')';
+    videoLista.setAttribute('name', arrayVideos[index]);
+    videoLista.addEventListener('click', reproducir);
     videoLista.classList.add('videos');
-
-    let div = document.createElement('div');
-    div.classList.add('divVideos');
-    div.style.height = videoLista.height;
-    div.style.width = videoLista.width;
     lista.appendChild(videoLista);
-    lista.appendChild(div);
+
   }
 
 }
@@ -135,7 +129,10 @@ function subirVol() {
 }
 
 function reproducir() {
-  //TODO
+  
+  video.src = this.getAttribute('name');
+  
+
 }
 
 function lanzarPublicidad() {
@@ -158,11 +155,19 @@ function barraProgresion() {
 window.onload = init;
 
 
-let ArrayVideos = new Array();
+let arrayVideos = new Array();
 
-ArrayVideos.push('VIDEOS/thewae.mp4');
-ArrayVideos.push('VIDEOS/thewae.mp4');
-ArrayVideos.push('VIDEOS/thewae.mp4');
-ArrayVideos.push('VIDEOS/thewae.mp4');
-ArrayVideos.push('VIDEOS/thewae.mp4');
-ArrayVideos.push('VIDEOS/thewae.mp4');
+arrayVideos.push('VIDEOS/thewae.mp4');
+arrayVideos.push('VIDEOS/cuchillo.mp4');
+arrayVideos.push('VIDEOS/excitante.mp4');
+arrayVideos.push('VIDEOS/thewae.mp4');
+arrayVideos.push('VIDEOS/cuchillo.mp4');
+arrayVideos.push('VIDEOS/excitante.mp4');
+
+let arrayIMG = new Array();
+arrayIMG.push('http://i3.ytimg.com/vi/hLTgQ5SC-PU/maxresdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/id1Hc9eqZ-s/hqdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/FDF4MNhvr80/maxresdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/hLTgQ5SC-PU/maxresdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/id1Hc9eqZ-s/hqdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/FDF4MNhvr80/maxresdefault.jpg');
