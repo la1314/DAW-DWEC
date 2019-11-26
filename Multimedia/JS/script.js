@@ -131,7 +131,6 @@ function subirVol() {
 function reproducir() {
   
   video.src = this.getAttribute('name');
-  
 
 }
 
