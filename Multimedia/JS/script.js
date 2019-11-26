@@ -11,8 +11,8 @@ function init() {
 //Añade el video por defecto en el reproductor
 function agregarVDefecto() {
 
-  video.src = 'VIDEOS/thewae.mp4';
-  video.type = 'video/ogg';
+  video.src = arrayVideos[3];
+  video.type = 'video/mp4';
   video.addEventListener('click', playPause);
 
 }
@@ -68,6 +68,7 @@ function silence() {
     video.muted = false;
 
   } else {
+
     video.muted = true;
   }
 
@@ -76,8 +77,8 @@ function silence() {
 //Funcion que retrocede el video en 10 seg
 function retroceder() {
 
-  tiempoActual = video.currentTime;
-  video.currentTime = tiempoActual - 10;
+  video.currentTime -= 10;
+  console.log(video.currentTime)
 }
 
 //Función que dependiendo si el video actual se encuentra pausado reproducirá el video actual, por el contrario lo pausará
@@ -88,13 +89,15 @@ function playPause() {
   } else {
     video.pause();
   }
+
 }
 
 //Funcion que adelanta el video en 10 seg
 function adelantar() {
 
-  tiempoActual = video.currentTime;
-  video.currentTime = tiempoActual + 10;
+ 
+  video.currentTime +=  10;
+  console.log(video.currentTime)
 }
 
 //Reinicia el video actual y lo vuelve a reproducir
@@ -129,9 +132,9 @@ function subirVol() {
 }
 
 function reproducir() {
-  
+ 
   video.src = this.getAttribute('name');
-
+  playPause();
 }
 
 function lanzarPublicidad() {
@@ -142,7 +145,7 @@ function lanzarPublicidad() {
 function deshabilitarBotones() {
 
   var controles = document.getElementById('controles'),
-    controlesClon = controles.cloneNode(true);
+  controlesClon = controles.cloneNode(true);
   controles.parentNode.replaceChild(controlesClon, controles);
 }
 
@@ -159,14 +162,14 @@ let arrayVideos = new Array();
 arrayVideos.push('VIDEOS/thewae.mp4');
 arrayVideos.push('VIDEOS/cuchillo.mp4');
 arrayVideos.push('VIDEOS/excitante.mp4');
-arrayVideos.push('VIDEOS/thewae.mp4');
-arrayVideos.push('VIDEOS/cuchillo.mp4');
-arrayVideos.push('VIDEOS/excitante.mp4');
+arrayVideos.push('VIDEOS/ratas.mp4');
+arrayVideos.push('VIDEOS/ng_dracukeo.mp4');
+arrayVideos.push('VIDEOS/cristal.mp4');
 
 let arrayIMG = new Array();
 arrayIMG.push('http://i3.ytimg.com/vi/hLTgQ5SC-PU/maxresdefault.jpg');
 arrayIMG.push('http://i3.ytimg.com/vi/id1Hc9eqZ-s/hqdefault.jpg');
 arrayIMG.push('http://i3.ytimg.com/vi/FDF4MNhvr80/maxresdefault.jpg');
-arrayIMG.push('http://i3.ytimg.com/vi/hLTgQ5SC-PU/maxresdefault.jpg');
-arrayIMG.push('http://i3.ytimg.com/vi/id1Hc9eqZ-s/hqdefault.jpg');
-arrayIMG.push('http://i3.ytimg.com/vi/FDF4MNhvr80/maxresdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/EhVB22S1Zqk/maxresdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/oXiHccFlT4g/hqdefault.jpg');
+arrayIMG.push('http://i3.ytimg.com/vi/z1eawSot7C0/maxresdefault.jpg');
