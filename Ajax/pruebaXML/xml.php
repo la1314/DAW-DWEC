@@ -1,5 +1,4 @@
 <?php
-
 echo "<?xml version='1.0' encoding='UTF-8'?>";
 echo "<menu_almuerzo>";
 echo "<comida>";
@@ -15,5 +14,4 @@ echo "<descripcion>La hamburguesa mas comun de McDonalds</descripcion>";
 echo "<calorias>1500</calorias>";
 echo "</comida>";
 echo "</menu_almuerzo>";
-
 ?>

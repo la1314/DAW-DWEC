@@ -1,11 +1,11 @@
 function comprobarFormulario(evento){
 
-    evento.preventDefault();
     let correcto = true;
 
     if (nombre && apellido && email && dni && password && repassword && ip) {
 
-        alert("Todo Correcto");
+      console.log("ÒwÓ > UwU");
+      
 
     } else {
 
@@ -43,8 +43,9 @@ function comprobarFormulario(evento){
         
         correcto = false;
     }
-
-   
+    console.log(correcto);
+    
+   return correcto;
 
 }
 
@@ -66,7 +67,7 @@ function comprobarNombre(event){
 
     nombre = correcto;
     nombreValor = this;
-    event.preventDefault();
+    
 }
 
 
@@ -196,7 +197,7 @@ function agregarListeners(){
     document.querySelector('input[name="Password"]').addEventListener('blur', comprobarPassword);
     document.querySelector('input[name="RePassword"]').addEventListener('blur', comprobarRepassword);
     document.querySelector('input[name="IP"]').addEventListener('blur', comprobarIP);
-    document.getElementById('boton').addEventListener('submit', comprobarFormulario);
+    document.getElementById('boton').setAttribute("onclick", "return comprobarFormulario()");
 }
 
 function init(){
