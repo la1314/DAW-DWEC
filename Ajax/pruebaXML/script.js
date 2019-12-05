@@ -19,11 +19,12 @@ function descargar() {
             let xmlDoc = peticion_http.responseXML;
             let nombres = xmlDoc.getElementsByTagName('nombre');
 
-            console.log(nombres);
+            console.log(xmlDoc);
             
+
             //Ver como recorrer esta mierda
-            for (let index = 0; index < index.length; index++) {
-               // console.log(nombres[index].);
+            for (let index = 0; index < nombres.length; index++) {
+               console.log(nombres[index].innerHTML);
             }
 
             

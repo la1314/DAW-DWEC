@@ -4,9 +4,8 @@ function comprobarFormulario(evento){
 
     if (nombre && apellido && email && dni && password && repassword && ip) {
 
-      console.log("ÒwÓ > UwU");
+      //Llamar a la función que se conecta a registro
       
-
     } else {
 
         let mensaje = "Hay errores en: \n";
@@ -43,12 +42,44 @@ function comprobarFormulario(evento){
         
         correcto = false;
     }
-    console.log(correcto);
     
    return correcto;
 
 }
 
+
+function registro(){
+   // Obtener la instancia del objeto XMLHttpRequest
+   peticion_http = new XMLHttpRequest();
+
+   // Preparar la función de respuesta
+   peticion_http.onreadystatechange = mostrar;
+
+   // Force the response to be parsed as XML
+   peticion_http.overrideMimeType('text/xml');
+
+   // Realizar petición HTTP
+
+   peticion_http.open('POST', 'xml.php', true);
+   peticion_http.send(null);
+
+   function mostrar() {
+       if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+
+           let xmlDoc = peticion_http.responseXML;
+           let nombres = xmlDoc.getElementsByTagName('nombre');
+
+           console.log(xmlDoc);
+           
+
+           //Ver como recorrer esta mierda
+           for (let index = 0; index < nombres.length; index++) {
+              console.log(nombres[index].innerHTML);
+           }
+           
+       }
+   }
+}
 
 
 function comprobarNombre(event){
