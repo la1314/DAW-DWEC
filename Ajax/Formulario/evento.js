@@ -1,88 +1,80 @@
-function comprobarFormulario(evento){
+function comprobarFormulario(evento) {
 
     let correcto = true;
 
     if (nombre && apellido && email && dni && password && repassword && ip) {
 
-      //Llamar a la función que se conecta a registro
-      
+        registro();
+
     } else {
 
         let mensaje = "Hay errores en: \n";
 
-        if(!nombre && nombreValor != null){
-          mensaje+= " Nombre \n";
+        if (!nombre && nombreValor != null) {
+            mensaje += " Nombre \n";
         }
-        if(!apellido && apellidoValor != null ){
-          mensaje+= " Apellido \n"
+        if (!apellido && apellidoValor != null) {
+            mensaje += " Apellido \n"
         }
-        if(!email && emailValor != null){
-          mensaje+= " e-mail \n"
+        if (!email && emailValor != null) {
+            mensaje += " e-mail \n"
         }
-        if(!dni && dniValor != null){
-          mensaje+= " DNI \n"
+        if (!dni && dniValor != null) {
+            mensaje += " DNI \n"
         }
-        if(!password && passwordValor != null){
-          mensaje+= " Password \n"
+        if (!password && passwordValor != null) {
+            mensaje += " Password \n"
         }
-        if(!repassword && repasswordValor != null){
-          mensaje+= " Repetir password \n"
+        if (!repassword && repasswordValor != null) {
+            mensaje += " Repetir password \n"
         }
-        if(!ip && ipValor != null){
-          mensaje+= " IP \n"
+        if (!ip && ipValor != null) {
+            mensaje += " IP \n"
         }
 
-        
 
-        if ( mensaje == "Hay errores en: \n") {
-          alert("Faltan casillas por rellenar")
+
+        if (mensaje == "Hay errores en: \n") {
+            alert("Faltan casillas por rellenar")
         } else {
-          alert(mensaje);
+            alert(mensaje);
         }
-        
+
         correcto = false;
     }
-    
-   return correcto;
+
+    return correcto;
 
 }
 
 
-function registro(){
-   // Obtener la instancia del objeto XMLHttpRequest
-   peticion_http = new XMLHttpRequest();
+function registro() {
 
-   // Preparar la función de respuesta
-   peticion_http.onreadystatechange = mostrar;
+    let formulario = new FormData(document.getElementsByName('formularioRegistro')[0]);
 
-   // Force the response to be parsed as XML
-   peticion_http.overrideMimeType('text/xml');
+    // Obtener la instancia del objeto XMLHttpRequest
+    peticion_http = new XMLHttpRequest();
 
-   // Realizar petición HTTP
+    // Preparar la función de respuesta
+    peticion_http.onreadystatechange = mostrar;
 
-   peticion_http.open('POST', 'xml.php', true);
-   peticion_http.send(null);
+    // Realizar petición HTTP
 
-   function mostrar() {
-       if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+    peticion_http.open('POST', 'registro.php');
+    peticion_http.send(formulario);
 
-           let xmlDoc = peticion_http.responseXML;
-           let nombres = xmlDoc.getElementsByTagName('nombre');
+    function mostrar() {
+        if (peticion_http.readyState == 4 && peticion_http.status == 200) {
 
-           console.log(xmlDoc);
-           
-
-           //Ver como recorrer esta mierda
-           for (let index = 0; index < nombres.length; index++) {
-              console.log(nombres[index].innerHTML);
-           }
-           
-       }
-   }
+            if (peticion_http.responseText == "OK") {
+                alert("OK, registrado, PAPU ");
+            }
+        }
+    }
 }
 
 
-function comprobarNombre(event){
+function comprobarNombre(event) {
 
     let correcto = false;
     let comprobacion = this.value;
@@ -92,17 +84,17 @@ function comprobarNombre(event){
 
         this.value = "¡ERROR!";
 
-    }else {
-          correcto = true;
+    } else {
+        correcto = true;
     }
 
     nombre = correcto;
     nombreValor = this;
-    
+
 }
 
 
-function comprobarApellido(){
+function comprobarApellido() {
 
     let correcto = false;
     let comprobacion = this.value;
@@ -112,8 +104,8 @@ function comprobarApellido(){
 
         this.value = "¡ERROR!";
 
-    }else {
-          correcto = true;
+    } else {
+        correcto = true;
     }
 
     apellido = correcto;
@@ -121,7 +113,7 @@ function comprobarApellido(){
 
 }
 
-function comprobarEmail(){
+function comprobarEmail() {
 
     let correcto = false;
     let comprobacion = this.value;
@@ -131,8 +123,8 @@ function comprobarEmail(){
 
         this.value = "¡ERROR!";
 
-    }else {
-          correcto = true;
+    } else {
+        correcto = true;
     }
 
     emailValor = this;
@@ -140,7 +132,7 @@ function comprobarEmail(){
 
 }
 
-function comprobarDNI(){
+function comprobarDNI() {
 
     let correcto = false;
     let comprobacion = this.value;
@@ -150,8 +142,8 @@ function comprobarDNI(){
 
         this.value = "¡ERROR!";
 
-    }else {
-          correcto = true;
+    } else {
+        correcto = true;
     }
 
     dniValor = this;
@@ -159,7 +151,7 @@ function comprobarDNI(){
 
 }
 
-function comprobarPassword(){
+function comprobarPassword() {
 
     let correcto = false;
     let comprobacion = this.value;
@@ -169,8 +161,8 @@ function comprobarPassword(){
 
         this.value = "¡ERROR!";
 
-    }else {
-          correcto = true;
+    } else {
+        correcto = true;
     }
 
     passwordValor = this;
@@ -178,7 +170,7 @@ function comprobarPassword(){
 
 }
 
-function comprobarRepassword(){
+function comprobarRepassword() {
 
     let correcto = false;
     let comprobacion = this.value;
@@ -188,7 +180,7 @@ function comprobarRepassword(){
 
         correcto = true;
 
-    }else {
+    } else {
 
         if (comprobacion != "") {
             this.value = "¡ERROR!";
@@ -197,29 +189,29 @@ function comprobarRepassword(){
     }
 
     repasswordValor = this;
-    repassword= correcto;
+    repassword = correcto;
 
 }
 
-function comprobarIP(){
+function comprobarIP() {
 
     let comprobacion = this.value;
-    let patron = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/ ;
+    let patron = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
     let correcto = false;
 
     if (!patron.test(comprobacion) && comprobacion != "") {
 
         this.value = "¡ERROR!";
 
-    }else {
-          correcto = true;
+    } else {
+        correcto = true;
     }
 
     ipValor = this;
     ip = correcto;
 }
 
-function agregarListeners(){
+function agregarListeners() {
 
     document.querySelector('input[name="Nombre"]').addEventListener('blur', comprobarNombre);
     document.querySelector('input[name="Apellido"]').addEventListener('blur', comprobarApellido);
@@ -228,15 +220,15 @@ function agregarListeners(){
     document.querySelector('input[name="Password"]').addEventListener('blur', comprobarPassword);
     document.querySelector('input[name="RePassword"]').addEventListener('blur', comprobarRepassword);
     document.querySelector('input[name="IP"]').addEventListener('blur', comprobarIP);
-    document.getElementById('boton').setAttribute("onclick", "return comprobarFormulario()");
+    document.getElementById('boton').addEventListener("click", comprobarFormulario);
 }
 
-function init(){
+function init() {
 
-  
+
     agregarListeners()
-    
-    
+
+
 }
 
 let nombre = "";
@@ -248,7 +240,7 @@ let repassword = "";
 let ip = "";
 
 let nombreValor = null;
-let apellidoValor  = null;
+let apellidoValor = null;
 let emailValor = null;
 let dniValor = null;
 let passwordValor = null;
