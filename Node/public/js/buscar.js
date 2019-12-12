@@ -81,12 +81,13 @@ function buscar() {
              // Creamos el cuadro de cada falla
              let cuadro = document.createElement('div');
              let boceto = document.createElement('div');
-             let nombre = document.createElement('div');
+             let divNombre = document.createElement('div');
+             let nombre = document.createElement('p');
              let ubicacion = document.createElement('button');
             
              cuadro.classList.add('cuadrado');
              boceto.classList.add('imagenes');
-             nombre.classList.add('nombres');
+             divNombre.classList.add('nombres');
              ubicacion.classList.add('botones');
             
 
@@ -94,9 +95,9 @@ function buscar() {
              nombre.innerHTML = resultado[index].properties.nombre;
              ubicacion.innerHTML = "Ubicación";
  
-             
+             divNombre.appendChild(nombre);
              cuadro.appendChild(boceto);
-             cuadro.appendChild(nombre);
+             cuadro.appendChild(divNombre);
              cuadro.appendChild(ubicacion);
              
              console.log(document.querySelector(".resultados"));
