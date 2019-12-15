@@ -21,7 +21,7 @@ exports.create = (req,res)=>{
     if (!req.body){
         console.log(req.body);
         return res.status(400).send({
-           message:"puntuacion Vacio..." 
+           message:"puntuacion Vacio..."
         });
     }
 
@@ -38,4 +38,11 @@ exports.create = (req,res)=>{
             message: err.message|| "Something was wrong creating puntuacion"
         });
     });
+};
+
+// Delete
+exports.delete = (req, res)=> {
+
+    Puntuacion.remove(req.params.idFalla);
+
 };

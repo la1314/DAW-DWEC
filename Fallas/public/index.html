@@ -23,10 +23,29 @@
   <div class="busqueda">
     <form id="busquedaform">
 
-      <!-- <input type="text" name="calle">
-      <input type="button" value="Buscar"> -->
-  
+
+      <label>Sección:</label>
+      <br>
+      <input type="text" placeholder="Todas" name="firstname"><br>
+
+      <label>Año de fundación:</label>
+      <br>
+      <input type="number" placeholder="Desde" name="rangoFecha"><br>
+      <input type="number" placeholder="Hasta" name="rangoFecha"><br>
+
+      <br>
+      <input type="radio" name="tipoFalla" placeholder="Principal" value="adult" checked>Principal</input><br>
+      <input type="radio" name="tipoFalla" placeholder="Infantil" value="children">Infantil</input><br>
+
     </form>
+    <!-- <form method="POST" action="puntuaciones/">
+
+    <input type="text" name="idFalla">
+    <input type="text" name="ip">
+    <input type="text" name="puntuacion">
+
+    <input type="submit">
+    </form> -->
   </div>
 
   <div class="resultados">
