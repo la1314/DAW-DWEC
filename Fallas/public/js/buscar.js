@@ -8,6 +8,8 @@
 // Algunos valores
 
 const recargaElectricaURL = "http://mapas.valencia.es/lanzadera/opendata/Monumentos_falleros/JSON";
+let fallasValencia;
+let tipo;
 
 // Esta es la funcion de filtrado para
 // obtener tan solo los elementos que cumplen
@@ -29,87 +31,108 @@ function toUpp() {
 
 function buscar() {
 
-    // Obtenemos el JSON que esta definido
-    const fetchPromesa = fetch(recargaElectricaURL);
+    //  console.log(fallasValencia);
 
-    // Cuando se resuelva la promesa
-    fetchPromesa.then(response => {
-        // la pasamos a JSON
-        return response.json();
-        // Y entonces
-    }).then(respuesta => {
-        // Filtramos los resultados con el filtro definido anteriormente
+    // Obtenemos el JSON que esta definido   
 
-        // const resultado=respuesta.features.filter(filtroLetra);
-        const resultado = respuesta.features
-        console.log(resultado[0]);
+    tipo = this.value;
 
-        // Una vez tenemos el listado filtrado pasamos a crear
-        // cada uno de los <li> que representan
-     
+    // console.log(tipo);
 
-        // Por cada uno de ellos
-        /*
-        resultado.forEach( falla => {
+    // console.log(resultado[0]);
 
-            // Creamos un <li>
-            let calleli = document.createElement("li");
+    let myNode = document.querySelector(".resultados");
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+
+    // Una vez tenemos el listado filtrado pasamos a crear
+    // cada uno de los <li> que representan
+
+
+    // Por cada uno de ellos
+
+    fallasValencia.forEach(falla => {
+
+        // Creamos el cuadro de cada falla
+        let cuadro = document.createElement('div');
+        let boceto = document.createElement('div');
+        let divNombre = document.createElement('div');
+        let nombre = document.createElement('p');
+        let ubicacion = document.createElement('button');
+
+        cuadro.classList.add('cuadrado');
+        boceto.classList.add('imagenes');
+        divNombre.classList.add('nombres');
+        ubicacion.classList.add('botones');
+
+        if (tipo == 'children') {
+            boceto.style.backgroundImage = 'url("' + falla.properties.boceto_i + '")';
+
+        } else {
+            boceto.style.backgroundImage = 'url("' + falla.properties.boceto + '")';
+        }
+
+        nombre.innerHTML = falla.properties.nombre;
+        ubicacion.innerHTML = "Ubicación";
+
+        divNombre.appendChild(nombre);
+        cuadro.appendChild(boceto);
+        cuadro.appendChild(divNombre);
+        cuadro.appendChild(ubicacion);
+
+        document.querySelector(".resultados").appendChild(cuadro);
+    });
+
+
+
+}
+
+//TODO
+function filtroDesde() {
+
+    console.log(this.value);
+
+    //let respaldo = fallasValencia.features.filter(falla.properties.anyo_fundacion > this.value);
+    let respaldo = fallasValencia.filter( año => año  );
+
+        let myNode = document.querySelector(".resultados");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+
+        respaldo.forEach(falla => {
 
             // Creamos el cuadro de cada falla
             let cuadro = document.createElement('div');
-            let boceto = document.createElement('img');
-            let nombre = document.createElement('div');
+            let boceto = document.createElement('div');
+            let divNombre = document.createElement('div');
+            let nombre = document.createElement('p');
             let ubicacion = document.createElement('button');
 
-            boceto.src = falla.properties.boceto;
-            nombre.innerHTML = falla.properties.nombre;
-            ubicacion.value = "Ubicación";
-
             cuadro.classList.add('cuadrado');
+            boceto.classList.add('imagenes');
+            divNombre.classList.add('nombres');
+            ubicacion.classList.add('botones');
+
+            if (tipo == 'children') {
+                boceto.style.backgroundImage = 'url("' + falla.properties.boceto_i + '")';
+
+            } else {
+                boceto.style.backgroundImage = 'url("' + falla.properties.boceto + '")';
+            }
+
+            nombre.innerHTML = falla.properties.nombre;
+            ubicacion.innerHTML = "Ubicación";
+
+            divNombre.appendChild(nombre);
             cuadro.appendChild(boceto);
-            cuadro.appendChild(nombre);
+            cuadro.appendChild(divNombre);
             cuadro.appendChild(ubicacion);
-            calleli.appendChild(cuadro);
 
-            // Lo anyadimos
-            listado.appendChild(calleli);
+            document.querySelector(".resultados").appendChild(cuadro);
         });
-        */
 
-        for (let index = 0; index < 9; index++) {
-
-             // Creamos el cuadro de cada falla
-             let cuadro = document.createElement('div');
-             let boceto = document.createElement('div');
-             let divNombre = document.createElement('div');
-             let nombre = document.createElement('p');
-             let ubicacion = document.createElement('button');
-            
-             cuadro.classList.add('cuadrado');
-             boceto.classList.add('imagenes');
-             divNombre.classList.add('nombres');
-             ubicacion.classList.add('botones');
-            
-
-             boceto.style.backgroundImage = 'url("'+resultado[index].properties.boceto+'")' ;
-             nombre.innerHTML = resultado[index].properties.nombre;
-             ubicacion.innerHTML = "Ubicación";
- 
-             divNombre.appendChild(nombre);
-             cuadro.appendChild(boceto);
-             cuadro.appendChild(divNombre);
-             cuadro.appendChild(ubicacion);
-             
-             console.log(document.querySelector(".resultados"));
-             
-             document.querySelector(".resultados").appendChild(cuadro);
-         
-        }
-
-        // Establecemos el listado en la Web
-        
-        
-    });
 
 }
 
@@ -121,7 +144,25 @@ function init() {
     // document.querySelector(`input[type="button"]`).addEventListener("click", buscar);
     // Texto cambia en el <input>
     // document.querySelector(`input[type="text"]`).addEventListener("input", toUpp);
-    buscar();
+
+    const fetchPromesa = fetch(recargaElectricaURL);
+    // Cuando se resuelva la promesa
+    fetchPromesa.then(response => {
+        // la pasamos a JSON
+        return response.json();
+
+        // Y entonces
+    }).then(respuesta => {
+
+        fallasValencia = respuesta.features
+        buscar();
+
+    });
+
+
+    document.querySelectorAll('input[name="tipoFalla"]').forEach(radius => radius.addEventListener('change', buscar));
+    document.querySelector('input[name="fechaDesde"]').addEventListener('change', filtroDesde);
+
 
 }
 
