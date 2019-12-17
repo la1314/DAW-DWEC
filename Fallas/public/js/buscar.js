@@ -94,8 +94,10 @@ function filtroDesde() {
     console.log(this.value);
 
     //let respaldo = fallasValencia.features.filter(falla.properties.anyo_fundacion > this.value);
-    let respaldo = fallasValencia.filter( año => año  );
+    let respaldo = fallasValencia.filter( año => año.properties.anyo_fundacion > this.value  );
 
+    console.log(respaldo);
+    
         let myNode = document.querySelector(".resultados");
         while (myNode.firstChild) {
             myNode.removeChild(myNode.firstChild);
