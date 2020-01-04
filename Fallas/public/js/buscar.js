@@ -51,11 +51,6 @@ function toUpp() {
   document.querySelector(`input[name="calle"]`).value = document.querySelector(`input[name="calle"]`).value.toUpperCase();
 }
 
-//funcion que se lanza para listar todas las fallas sin ningún tipo de filtro aplicado tomando en cuenta la demografia seleccionada
-function porDefecto(datos) {
-  buscar(datos, returnDemografia());
-}
-
 //Guarda en un array las secciones disponibles dependiendo a la demografia seleccionada
 function filtroSecciones(datos) {
 
@@ -108,41 +103,6 @@ function removerItem(vector, item) {
   });
 };
 
-//funcioón que se encarga de dibujar los cuardros de las fallas a este se le pasa como parámetros los datos a dibujar y la demografia de a seleccionar para mostrarlos por pantalla
-// cada vez que se llama a esta función guarda en la variable estadoActual los datos de datosFalla puesto que las diferentes opciones toman como base estos datos para ir filtrandolos
-
-function buscar(datosFalla, demografia) {
-
-  estadoActual = datosFalla;
-  let secciones;
-
-  //console.log(datosFalla[0]);
-  secciones = filtroSecciones(estadoActual);
-
-  let opciones = document.getElementById('sections');
-
-  while (opciones.firstChild) {
-    opciones.removeChild(opciones.firstChild);
-  }
-
-  opciones.addEventListener('change', mostrarSeccion);
-
-  for (var i = 0; i < secciones.length; i++) {
-
-    let opcion = document.createElement('option');
-    opcion.value = secciones[i];
-    opcion.innerHTML = secciones[i];
-    opciones.appendChild(opcion);
-    opcion.click;
-
-  }
-
-  //Dibujamos el cuadro de fallas
-  creacionCuadros(demografia, estadoActual);
-
-
-}
-
 // Crea cuadros tomando en cuenta la demografia seleccionada tomando como base los datos pasados
 function creacionCuadros(demografia, datosFalla) {
 
@@ -151,7 +111,7 @@ function creacionCuadros(demografia, datosFalla) {
     myNode.removeChild(myNode.firstChild);
   }
 
-  datosFalla.forEach( falla => {
+  datosFalla.forEach(falla => {
     // Creamos el cuadro de cada falla
     let cuadro = document.createElement('div');
     let boceto = document.createElement('div');
@@ -184,39 +144,40 @@ function creacionCuadros(demografia, datosFalla) {
 
     document.querySelector(".resultados").appendChild(cuadro);
   });
-
 }
 
-//funcion que filtra estadoActual dependiendo a la demografia para obtener las fallas que han sido creadas desde el valor actual de la opción
-function filtroDesde() {
+//funcioón que se encarga de dibujar los cuardros de las fallas a este se le pasa como parámetros los datos a dibujar y la demografia de a seleccionar para mostrarlos por pantalla
+// cada vez que se llama a esta función guarda en la variable estadoActual los datos de datosFalla puesto que las diferentes opciones toman como base estos datos para ir filtrandolos
+function buscar(datosFalla, demografia) {
 
-  let demografia = returnDemografia();
-  let respaldo;
+  estadoActual = datosFalla;
+  let secciones;
 
-  if (demografia == 'adult') {
-    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion > this.value);
-  } else {
-    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion_i > this.value);
+  //console.log(datosFalla[0]);
+  secciones = filtroSecciones(estadoActual);
+
+  let opciones = document.getElementById('sections');
+
+  while (opciones.firstChild) {
+    opciones.removeChild(opciones.firstChild);
   }
 
-  buscar(respaldo, demografia);
+  opciones.addEventListener('change', mostrarSeccion);
 
-}
+  for (var i = 0; i < secciones.length; i++) {
 
-//funcion que filtra estadoActual dependiendo a la demografia para obtener las fallas que han sido creadas hsata el valor actual de la opción
-function filtroHasta() {
+    let opcion = document.createElement('option');
+    opcion.value = secciones[i];
+    opcion.innerHTML = secciones[i];
+    opciones.appendChild(opcion);
+    opcion.click;
 
-  let demografia = returnDemografia();
-  let respaldo;
-
-  if (demografia == 'adult') {
-    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion < this.value);
-  } else {
-    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion_i < this.value);
   }
 
-  buscar(respaldo, demografia);
+  //Dibujamos el cuadro de fallas
+  creacionCuadros(demografia, estadoActual);
 }
+
 
 //Muestra la las secciones seleccionadas de los datos de estadoActual
 function mostrarSeccion() {
@@ -236,8 +197,39 @@ function mostrarSeccion() {
   }
 
   creacionCuadros(demografia, respaldo);
-
 }
+
+//funcion que filtra estadoActual dependiendo a la demografia para obtener las fallas que han sido creadas desde el valor actual de la opción
+function filtroDesde() {
+
+  let demografia = returnDemografia();
+  let respaldo;
+
+  if (demografia == 'adult') {
+    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion > this.value);
+  } else {
+    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion_i > this.value);
+  }
+
+  buscar(respaldo, demografia);
+}
+
+//funcion que filtra estadoActual dependiendo a la demografia para obtener las fallas que han sido creadas hsata el valor actual de la opción
+function filtroHasta() {
+
+  let demografia = returnDemografia();
+  let respaldo;
+
+  if (demografia == 'adult') {
+    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion < this.value);
+  } else {
+    respaldo = estadoActual.filter(año => año.properties.anyo_fundacion_i < this.value);
+  }
+
+  buscar(respaldo, demografia);
+}
+
+
 
 //Devuelve el tipo de demografia seleccionado actualmente en las opciones
 function returnDemografia() {
@@ -249,25 +241,29 @@ function returnDemografia() {
       demografia = radius[i].value;
     }
   }
-  return demografia;
 
+  return demografia;
+}
+
+
+//funcion que se lanza para listar todas las fallas sin ningún tipo de filtro aplicado tomando en cuenta la demografia seleccionada
+function porDefecto(datos) {
+
+  buscar(datos, returnDemografia());
+}
+
+function porDefecto() {
+
+  buscar(fallasValencia, returnDemografia());
 }
 
 //Lista los datos actuales dependiendo de de la demografia seleccionada
 function filtroDemografia() {
-  buscar(estadoActual, this.value);
 
+  buscar(estadoActual, this.value);
 }
 
-
 function init() {
-
-  // Binding de los eventos correspondientes.
-
-  // Click en el boton de buscar
-  // document.querySelector(`input[type="button"]`).addEventListener("click", buscar);
-  // Texto cambia en el <input>
-  // document.querySelector(`input[type="text"]`).addEventListener("input", toUpp);
 
   const fetchPromesa = fetch(fallasValenciaURL);
   // Cuando se resuelva la promesa
@@ -283,12 +279,12 @@ function init() {
 
   });
 
-
+  // Binding de los eventos correspondientes.
   document.querySelectorAll('input[name="tipoFalla"]').forEach(radius => radius.addEventListener('change', filtroDemografia));
   document.querySelector('input[name="fechaDesde"]').addEventListener('change', filtroDesde);
   document.querySelector('input[name="fechaHasta"]').addEventListener('change', filtroHasta);
+  document.querySelector('button[name="reinicio"]').addEventListener('click', porDefecto);
   document.getElementById('sections').addEventListener('change', mostrarSeccion);
-
 }
 
 // The mother of the lamb.
