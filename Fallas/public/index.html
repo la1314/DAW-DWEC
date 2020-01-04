@@ -12,8 +12,13 @@
 
   <style>
     @import url("css/busqueda.css");
-  </style>
 
+    #map {
+
+      width: 350px;
+      height: 350px;
+    }
+  </style>
 </head>
 
 <body>
@@ -25,7 +30,9 @@
 
       <label>Sección:</label>
       <br>
-      <input type="text" placeholder="Todas" name="firstname"><br>
+      <select id="sections">
+      </select>
+      <br>
 
       <label>Año de fundación:</label>
       <br>
@@ -33,7 +40,7 @@
       <input type="number" placeholder="Hasta" name="fechaHasta"><br>
 
       <br>
-      <input type="radio" name="tipoFalla" placeholder="Principal" value="adult" checked >Principal</input><br>
+      <input type="radio" name="tipoFalla" placeholder="Principal" value="adult" checked>Principal</input><br>
       <input type="radio" name="tipoFalla" placeholder="Infantil" value="children">Infantil</input><br>
 
     </form>
@@ -42,5 +49,8 @@
   <div class="resultados">
   </div>
 
+
+
 </body>
+
 </html>
