@@ -45,7 +45,6 @@ exports.create = (req,res)=>{
 // Delete
 exports.delete = (req, res)=> {
 
-    console.log(req.params);
     Puntuacion.findByIdAndRemove(req.params.puntuacionId)
 
     .then(puntuacion => {
@@ -67,5 +66,18 @@ exports.delete = (req, res)=> {
         });
     });
 
+
+};
+// https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
+// findOne
+exports.findOne = (req, res)=> {
+
+  Puntuacion.findOne({_id: req.params.puntuacionId}).then(puntuaciones=>{
+      res.send(puntuaciones);
+  }).catch(err=>{
+      res.status(500).send({
+          message: err.message || " Algo fue mal mientras los capturabamos la id"
+      });
+  });
 
 };

@@ -8,11 +8,11 @@ module.exports = (app) => {
     app.get('/api/puntuaciones', puntuaciones.findAll);
 
     // Retrieve a single puntuaciones with puntuacionId
-    //app.get('/puntuaciones/:puntuacionId', puntuaciones.findOne);
+    app.get('/api/puntuaciones/:puntuacionId', puntuaciones.findOne);
 
     // Update a puntuaciones with puntuacionId
     //app.put('/puntuaciones/:puntuacionId', puntuaciones.update);
 
     // Delete a puntuaciones with puntuacionId
-    app.get('/api/puntuaciones/:puntuacionId', puntuaciones.delete);
+    app.delete('/api/puntuaciones/:puntuacionId', puntuaciones.delete);
 }

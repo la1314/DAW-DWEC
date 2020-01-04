@@ -178,7 +178,7 @@ function buscar(datosFalla, demografia) {
     }else {
       opcion.innerHTML = 'Sección: ' + secciones[i];
     }
-    
+
     opciones.appendChild(opcion);
     opcion.click;
 
@@ -271,6 +271,34 @@ function porDefecto() {
 function filtroDemografia() {
 
   buscar(estadoActual, this.value);
+}
+
+
+//Apartado AJAX
+
+function registro() {
+
+    let formulario = new FormData(document.getElementsByName('formularioRegistro')[0]);
+
+    // Obtener la instancia del objeto XMLHttpRequest
+    peticion_http = new XMLHttpRequest();
+
+    // Preparar la función de respuesta
+    peticion_http.onreadystatechange = mostrar;
+
+    // Realizar petición HTTP
+
+    peticion_http.open('POST', 'registro.php');
+    peticion_http.send(formulario);
+
+    function mostrar() {
+        if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+
+            if (peticion_http.responseText == "OK") {
+                alert("OK, registrado, PAPU ");
+            }
+        }
+    }
 }
 
 function init() {
