@@ -47,11 +47,11 @@ exports.delete = (req, res)=> {
 
     console.log(req.params);
     Puntuacion.findByIdAndRemove(req.params.puntuacionId)
-    
+
     .then(puntuacion => {
         if(!puntuacion) {
             return res.status(404).send({
-                message: "Investigador no encontrado " + req.params.puntuacionId
+                message: "Puntiación no encontrado " + req.params.puntuacionId
             });
         }
         res.send({message: "Puntuación eliminada"});
@@ -60,12 +60,12 @@ exports.delete = (req, res)=> {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({
                 message: "Puntuación not found with id " + req.params.puntuacionId
-            });                
+            });
         }
         return res.status(500).send({
             message: "No se puede encontrar una Puntuación con id " + req.params.puntuacionId
         });
     });
 
-   
+
 };

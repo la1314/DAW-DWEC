@@ -89,7 +89,7 @@ function filtroSecciones(datos) {
   }
 
   if (fcBoolean) {
-    secciones.unshift('FC');
+    secciones.push('FC');
   }
 
   secciones.unshift('Todas');
@@ -168,7 +168,17 @@ function buscar(datosFalla, demografia) {
 
     let opcion = document.createElement('option');
     opcion.value = secciones[i];
-    opcion.innerHTML = secciones[i];
+
+    if (secciones[i] == 'FC') {
+      opcion.innerHTML = 'Fuera del concurso';
+    }else if (secciones[i] == 'E') {
+      opcion.innerHTML = 'Sección especial';
+    }else if (secciones[i] == 'Todas') {
+      opcion.innerHTML = secciones[i];
+    }else {
+      opcion.innerHTML = 'Sección: ' + secciones[i];
+    }
+    
     opciones.appendChild(opcion);
     opcion.click;
 
