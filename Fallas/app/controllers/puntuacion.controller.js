@@ -19,18 +19,21 @@ exports.create = (req, res) => {
 
   // Validamos el puntuacion
 
-  console.log(req.body);
-
   if (!req.body) {
     return res.status(400).send({
       message: "puntuacion Vacio..."
     });
   }
 
+  res.send(req.body);
+
   const puntuacion = new Puntuacion({
-    idFalla: req.body.idFalla || "idFallaVacio",
-    ip: req.body.ip || "127.0.0.1",
-    puntuacion: req.body.puntuacion || 42
+    // idFalla: req.body.idFalla || "idFallaVacio",
+    // ip: req.body.ip || "127.0.0.1",
+    // puntuacion: req.body.puntuacion || 0
+    idFalla: req.body.idFalla,
+    ip: req.body.ip,
+    puntuacion: req.body.puntuacion
   })
 
   puntuacion.save().then(data => {
@@ -75,9 +78,12 @@ exports.delete = (req, res) => {
 exports.findOne = (req, res) => {
 
   Puntuacion.findOne({
-    _id: req.params.puntuacionId
-  }).then(puntuaciones => {
-    res.send(puntuaciones);
+    //_id: req.params.puntuacionId
+    'idFalla' : req.body.puntuacionId,
+    'ip' : req.body.ip
+
+  }).then(puntuacion => {
+    res.send(puntuacion);
   }).catch(err => {
     res.status(500).send({
       message: err.message || " Algo fue mal mientras los capturabamos la id"
@@ -97,12 +103,7 @@ exports.update = (req, res) => {
 
     puntuacion.save().then(data => {
       res.send(data);
-    }).catch(err => {
-      res.status(500).send({
-        message: err.message || "Algo fue mal mientras se modificaba"
-      });
-    });
-
+    })
 
   }).catch(err => {
     res.status(500).send({

@@ -9,6 +9,7 @@
 const fallasValenciaURL = "http://mapas.valencia.es/lanzadera/opendata/Monumentos_falleros/JSON";
 let fallasValencia;
 let estadoActual;
+let ipHost;
 
 //Función que ordena de forma alfanumérica los elementos de un array
 function sortAlphaNum(a, b) {
@@ -111,6 +112,8 @@ function creacionCuadros(demografia, datosFalla) {
     myNode.removeChild(myNode.firstChild);
   }
 
+  iterador = 0;
+
   datosFalla.forEach(falla => {
     // Creamos el cuadro de cada falla
     let cuadro = document.createElement('div');
@@ -118,11 +121,14 @@ function creacionCuadros(demografia, datosFalla) {
     let divNombre = document.createElement('div');
     let nombre = document.createElement('p');
     let ubicacion = document.createElement('button');
+    let puntuacion = document.createElement('button');
 
     cuadro.classList.add('cuadrado');
     boceto.classList.add('imagenes');
     divNombre.classList.add('nombres');
     ubicacion.classList.add('botones');
+    puntuacion.classList.add('botones');
+    nombre.id = 'C' + iterador;
 
     if (demografia == 'children') {
       boceto.style.backgroundImage = 'url("' + falla.properties.boceto_i + '")';
@@ -131,18 +137,27 @@ function creacionCuadros(demografia, datosFalla) {
     }
 
     nombre.innerHTML = falla.properties.nombre;
+    //TODO implementar ubicacion
     ubicacion.innerHTML = "Ubicación";
     ubicacion.addEventListener('click', function() {
       console.log(falla.properties.seccion)
     });
-    //TODO implementar ubicacion
+
+    // Apartado putnuación
+    puntuacion.innerHTML = 'Crear Puntuación';
+    puntuacion.name = 'C' + iterador;
+    puntuacion.value = 1;
+    puntuacion.addEventListener('click', crearPuntuacion);
+
 
     divNombre.appendChild(nombre);
     cuadro.appendChild(boceto);
     cuadro.appendChild(divNombre);
     cuadro.appendChild(ubicacion);
+    cuadro.appendChild(puntuacion);
 
     document.querySelector(".resultados").appendChild(cuadro);
+    iterador++;
   });
 }
 
@@ -171,11 +186,11 @@ function buscar(datosFalla, demografia) {
 
     if (secciones[i] == 'FC') {
       opcion.innerHTML = 'Fuera del concurso';
-    }else if (secciones[i] == 'E') {
+    } else if (secciones[i] == 'E') {
       opcion.innerHTML = 'Sección especial';
-    }else if (secciones[i] == 'Todas') {
+    } else if (secciones[i] == 'Todas') {
       opcion.innerHTML = secciones[i];
-    }else {
+    } else {
       opcion.innerHTML = 'Sección: ' + secciones[i];
     }
 
@@ -274,31 +289,44 @@ function filtroDemografia() {
 }
 
 
-//Apartado AJAX
+//Apartado AJAX realizar todas las peticiones y luego ponerme con las puntuaciones
 
-function registro() {
+function getIPAddress() {
+  $.getJSON("https://jsonip.com?callback=?", function(data) {
+    ipHost = data.ip;
+  });
+};
 
-    let formulario = new FormData(document.getElementsByName('formularioRegistro')[0]);
+function crearPuntuacion() {
 
-    // Obtener la instancia del objeto XMLHttpRequest
-    peticion_http = new XMLHttpRequest();
+  let falla = document.getElementById(this.name);
 
-    // Preparar la función de respuesta
-    peticion_http.onreadystatechange = mostrar;
+  let nombre = falla.innerHTML;
+  let puntos = this.value;
+  let ip = ipHost;
 
-    // Realizar petición HTTP
+  //  Realizar petición HTTP
+  let query = 'http://localhost:3000/api/puntuaciones'
 
-    peticion_http.open('POST', 'registro.php');
-    peticion_http.send(formulario);
+  var xhr = new XMLHttpRequest();
+  var puntuacion = JSON.stringify({
+    'idFalla': nombre,
+    'ip': ipHost,
+    'puntuacion': puntos
+  });
 
-    function mostrar() {
-        if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+  xhr.open("POST", query, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function() {
 
-            if (peticion_http.responseText == "OK") {
-                alert("OK, registrado, PAPU ");
-            }
-        }
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var json = JSON.parse(xhr.responseText);
+    
     }
+  };
+
+  xhr.send(puntuacion);
+
 }
 
 function init() {
@@ -314,6 +342,7 @@ function init() {
 
     fallasValencia = respuesta.features
     porDefecto(fallasValencia);
+    getIPAddress();
 
   });
 
