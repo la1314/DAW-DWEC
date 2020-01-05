@@ -10,7 +10,6 @@ exports.findAll = (req, res) => {
       message: err.message || " Algo fue mal mientras los capturabamos a todos"
     });
   });
-
 };
 
 
@@ -28,9 +27,6 @@ exports.create = (req, res) => {
   res.send(req.body);
 
   const puntuacion = new Puntuacion({
-    // idFalla: req.body.idFalla || "idFallaVacio",
-    // ip: req.body.ip || "127.0.0.1",
-    // puntuacion: req.body.puntuacion || 0
     idFalla: req.body.idFalla,
     ip: req.body.ip,
     puntuacion: req.body.puntuacion
@@ -79,12 +75,15 @@ exports.findOne = (req, res) => {
 
   Puntuacion.findOne({
     //_id: req.params.puntuacionId
-    'idFalla' : req.body.puntuacionId,
+    'idFalla' : req.body.idFalla,
     'ip' : req.body.ip
 
   }).then(puntuacion => {
+
     res.send(puntuacion);
+
   }).catch(err => {
+
     res.status(500).send({
       message: err.message || " Algo fue mal mientras los capturabamos la id"
     });

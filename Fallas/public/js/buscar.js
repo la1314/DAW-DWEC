@@ -300,32 +300,61 @@ function getIPAddress() {
 function crearPuntuacion() {
 
   let falla = document.getElementById(this.name);
-
   let nombre = falla.innerHTML;
   let puntos = this.value;
   let ip = ipHost;
 
   //  Realizar petición HTTP
+  comprobarVotacion(nombre, ip, puntos);
+}
+
+function crearVotacion(nombre, ip, puntos) {
+
   let query = 'http://localhost:3000/api/puntuaciones'
 
-  var xhr = new XMLHttpRequest();
-  var puntuacion = JSON.stringify({
+  let xhr = new XMLHttpRequest();
+  let puntuacion = JSON.stringify({
     'idFalla': nombre,
     'ip': ipHost,
     'puntuacion': puntos
   });
-
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function() {
 
     if (xhr.readyState === 4 && xhr.status === 200) {
-      var json = JSON.parse(xhr.responseText);
-    
+      let json = JSON.parse(xhr.responseText);
+
     }
   };
 
   xhr.send(puntuacion);
+}
+
+//Comprueba que la ip no ha votado a la falla actual
+function comprobarVotacion(nombre, ipHost, puntos) {
+
+  let query = 'http://localhost:3000/api/puntuaciones/encontrar';
+  let xhr = new XMLHttpRequest();
+  let comprobar = JSON.stringify({
+    'idFalla': nombre,
+    'ip': ipHost
+  });
+
+  xhr.open("POST", query, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+
+      if (xhr.responseText == "") {
+
+        crearVotacion(nombre, ipHost, puntos)
+      }
+    }
+  };
+
+  xhr.send(comprobar);
 
 }
 
