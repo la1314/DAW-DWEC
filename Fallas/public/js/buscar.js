@@ -304,42 +304,21 @@ function crearPuntuacion() {
   let puntos = this.value;
   let ip = ipHost;
 
-  //  Realizar petición HTTP
-  comprobarVotacion(nombre, ip, puntos);
-}
-
-function crearVotacion(nombre, ip, puntos) {
-
-  let query = 'http://localhost:3000/api/puntuaciones'
-
-  let xhr = new XMLHttpRequest();
   let puntuacion = JSON.stringify({
     'idFalla': nombre,
     'ip': ipHost,
     'puntuacion': puntos
   });
-  xhr.open("POST", query, true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function() {
 
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      let json = JSON.parse(xhr.responseText);
-
-    }
-  };
-
-  xhr.send(puntuacion);
+  //  Realizar petición HTTP
+  comprobarVotacion(puntuacion);
 }
 
 //Comprueba que la ip no ha votado a la falla actual
-function comprobarVotacion(nombre, ipHost, puntos) {
+function comprobarVotacion(puntuacion) {
 
   let query = 'http://localhost:3000/api/puntuaciones/encontrar';
   let xhr = new XMLHttpRequest();
-  let comprobar = JSON.stringify({
-    'idFalla': nombre,
-    'ip': ipHost
-  });
 
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
@@ -348,15 +327,36 @@ function comprobarVotacion(nombre, ipHost, puntos) {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       if (xhr.responseText == "") {
-
-        crearVotacion(nombre, ipHost, puntos)
+        //No existe por lo que se procede a crear la puntuacion
+        crearVotacion(puntuacion)
       }
     }
   };
 
-  xhr.send(comprobar);
+  xhr.send(puntuacion);
 
 }
+
+//Añade a la base de datos la votación
+function crearVotacion(puntuacion) {
+
+  let query = 'http://localhost:3000/api/puntuaciones'
+
+  let xhr = new XMLHttpRequest();
+
+  xhr.open("POST", query, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function() {
+
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      //Añadido
+    }
+  };
+
+  xhr.send(puntuacion);
+}
+
+
 
 function init() {
 
