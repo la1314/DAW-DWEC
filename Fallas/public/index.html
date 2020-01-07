@@ -10,6 +10,11 @@
 
   <script src="js/buscar.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
+  <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.0/proj4-src.js"></script>
+ 
+
   <style>
     @import url("css/busqueda.css");
 
@@ -45,7 +50,10 @@
 
     </form>
     <br>
-    <button type="button" name="reinicio">Reiniciar Filtros</button>
+    <button type="button" class="botones" name="reinicio">Reiniciar Filtros</button>
+    
+    <div id="map"></div>
+    
   </div>
 
   <div class="resultados">

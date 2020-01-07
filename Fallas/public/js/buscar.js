@@ -126,8 +126,8 @@ function creacionCuadros(demografia, datosFalla) {
     cuadro.classList.add('cuadrado');
     boceto.classList.add('imagenes');
     divNombre.classList.add('nombres');
-    ubicacion.classList.add('botones');
-    puntuacion.classList.add('botones');
+    ubicacion.classList.add('botonesFallas');
+    puntuacion.classList.add('botonesFallas');
     nombre.id = 'C' + iterador;
 
     if (demografia == 'children') {
@@ -167,6 +167,9 @@ function buscar(datosFalla, demografia) {
 
   estadoActual = datosFalla;
   let secciones;
+
+  console.log(datosFalla[15]);
+  
 
   //console.log(datosFalla[0]);
   secciones = filtroSecciones(estadoActual);
@@ -356,6 +359,27 @@ function crearVotacion(puntuacion) {
   xhr.send(puntuacion);
 }
 
+//Ubicación, se requiera de coordenadas y nombres
+function crearMapa(){
+
+  let firstProjection  = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
+	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
+  let iarCoordinate = [729421.4825999998, 4372855.3787];
+
+  coordenadas = proj4(firstProjection, secondProjection, iarCoordinate);
+
+	var map = L.map('map').setView([coordenadas[1], coordenadas[0]], 16);
+	let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
+        L.tileLayer(tilerMapUrl, {
+            attribution: 'ÒwÓ > UwU',
+		}).addTo(map);
+		
+	L.marker(coordenadas).addTo(map);
+  
+  var punto = new L.Marker([coordenadas[1], coordenadas[0]]);
+  punto.addTo(map);
+  punto.bindPopup("<b>Aquí la descripción");
+}
 
 
 function init() {
@@ -372,6 +396,7 @@ function init() {
     fallasValencia = respuesta.features
     porDefecto(fallasValencia);
     getIPAddress();
+    crearMapa();
 
   });
 

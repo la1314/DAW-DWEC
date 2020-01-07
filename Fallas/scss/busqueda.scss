@@ -32,7 +32,13 @@ input[type="number"] {
 }
 
 .busqueda {
+
   margin-bottom: 15px;
+  display: grid;
+  height: 100%;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .resultados {
 
@@ -46,7 +52,6 @@ input[type="number"] {
   align-content: center;
   margin-left: auto;
   margin-right: auto;
-
 }
 
 .cuadrado {
@@ -59,9 +64,14 @@ input[type="number"] {
   border: 2px solid #7d828c;
 }
 
+.botones {
+  width: 150px;
+  height: 50px;
+}
+
 .imagenes,
 .nombres,
-.botones {
+.botonesFallas {
 
   place-self: center;
   width: 90%;
@@ -86,7 +96,7 @@ input[type="number"] {
   }
 }
 
-.botones {
+.botonesFallas {
 
   width: 30%;
   height: 35px;
