@@ -10,6 +10,7 @@ const fallasValenciaURL = "http://mapas.valencia.es/lanzadera/opendata/Monumento
 let fallasValencia;
 let estadoActual;
 let ipHost;
+let ubicaciones = new Array();
 
 //Función que ordena de forma alfanumérica los elementos de un array
 function sortAlphaNum(a, b) {
@@ -97,6 +98,13 @@ function filtroSecciones(datos) {
   return secciones;
 }
 
+//Función que obtiene la ip pública del cliente
+function getIPAddress() {
+  $.getJSON("https://jsonip.com?callback=?", function(data) {
+    ipHost = data.ip;
+  });
+};
+
 // Elimina un elemento de un arrray
 function removerItem(vector, item) {
   return vector.filter(function(e) {
@@ -113,8 +121,18 @@ function creacionCuadros(demografia, datosFalla) {
   }
 
   iterador = 0;
+  ubicaciones = [];
+
 
   datosFalla.forEach(falla => {
+
+    // guardamos los datos de la ubicación en un objeto para crear el mapa posteriormente
+    let ubicacionFalla = new Object();
+    ubicacionFalla.nombre = falla.properties.nombre;
+    ubicacionFalla.longitud = falla.geometry.coordinates[0];
+    ubicacionFalla.latitud = falla.geometry.coordinates[1];
+    ubicaciones.push(ubicacionFalla);
+
     // Creamos el cuadro de cada falla
     let cuadro = document.createElement('div');
     let boceto = document.createElement('div');
@@ -139,9 +157,8 @@ function creacionCuadros(demografia, datosFalla) {
     nombre.innerHTML = falla.properties.nombre;
     //TODO implementar ubicacion
     ubicacion.innerHTML = "Ubicación";
-    ubicacion.addEventListener('click', function() {
-      console.log(falla.properties.seccion)
-    });
+    ubicacion.value = iterador;
+    ubicacion.addEventListener('click', crearMapa);
 
     // Apartado putnuación
     puntuacion.innerHTML = 'Crear Puntuación';
@@ -167,9 +184,6 @@ function buscar(datosFalla, demografia) {
 
   estadoActual = datosFalla;
   let secciones;
-
-  console.log(datosFalla[15]);
-  
 
   //console.log(datosFalla[0]);
   secciones = filtroSecciones(estadoActual);
@@ -294,18 +308,11 @@ function filtroDemografia() {
 
 //Apartado AJAX realizar todas las peticiones y luego ponerme con las puntuaciones
 
-function getIPAddress() {
-  $.getJSON("https://jsonip.com?callback=?", function(data) {
-    ipHost = data.ip;
-  });
-};
-
 function crearPuntuacion() {
 
   let falla = document.getElementById(this.name);
   let nombre = falla.innerHTML;
   let puntos = this.value;
-  let ip = ipHost;
 
   let puntuacion = JSON.stringify({
     'idFalla': nombre,
@@ -359,28 +366,48 @@ function crearVotacion(puntuacion) {
   xhr.send(puntuacion);
 }
 
-//Ubicación, se requiera de coordenadas y nombres
+//Ubicación, se requiera de coordenadas, nombre y div contenedor del mapa
 function crearMapa(){
+
+  eliminarMapa();
+
+  let nombre = ubicaciones[this.value].nombre;
+  let longitud = ubicaciones[this.value].longitud;
+  let latitud = ubicaciones[this.value].latitud;
+  
+  let divMapa = document.createElement('div');
+  divMapa.id = 'map';
+  document.getElementById('busqueda').appendChild(divMapa);
 
   let firstProjection  = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
 	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
-  let iarCoordinate = [729421.4825999998, 4372855.3787];
+  let iarCoordinate = [longitud, latitud];
 
   coordenadas = proj4(firstProjection, secondProjection, iarCoordinate);
 
-	var map = L.map('map').setView([coordenadas[1], coordenadas[0]], 16);
+	let mapa = L.map('map').setView([coordenadas[1], coordenadas[0]], 16);
 	let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
         L.tileLayer(tilerMapUrl, {
             attribution: 'ÒwÓ > UwU',
-		}).addTo(map);
+		}).addTo(mapa);
 		
-	L.marker(coordenadas).addTo(map);
+	L.marker(coordenadas).addTo(mapa);
   
   var punto = new L.Marker([coordenadas[1], coordenadas[0]]);
-  punto.addTo(map);
-  punto.bindPopup("<b>Aquí la descripción");
+  punto.addTo(mapa);
+  punto.bindPopup(nombre);
 }
 
+function eliminarMapa(){
+  
+  let div = document.getElementById('map');
+
+  if (div !== null) {
+
+    div.parentNode.removeChild(div);
+
+  }
+}
 
 function init() {
 
@@ -396,7 +423,6 @@ function init() {
     fallasValencia = respuesta.features
     porDefecto(fallasValencia);
     getIPAddress();
-    crearMapa();
 
   });
 
