@@ -115,7 +115,7 @@ function removerItem(vector, item) {
 // Crea cuadros tomando en cuenta la demografia seleccionada tomando como base los datos pasados
 function creacionCuadros(demografia, datosFalla) {
 
-  let myNode = document.querySelector(".resultados");
+  let myNode = document.querySelector(".grid");
   while (myNode.firstChild) {
     myNode.removeChild(myNode.firstChild);
   }
@@ -141,7 +141,7 @@ function creacionCuadros(demografia, datosFalla) {
     let ubicacion = document.createElement('button');
     let puntuacion = document.createElement('button');
 
-    cuadro.classList.add('cuadrado');
+    cuadro.classList.add('grid-item');
     boceto.classList.add('imagenes');
     divNombre.classList.add('nombres');
     ubicacion.classList.add('botonesFallas');
@@ -173,7 +173,7 @@ function creacionCuadros(demografia, datosFalla) {
     cuadro.appendChild(ubicacion);
     cuadro.appendChild(puntuacion);
 
-    document.querySelector(".resultados").appendChild(cuadro);
+    document.querySelector(".grid").appendChild(cuadro);
     iterador++;
   });
 }
@@ -395,7 +395,7 @@ function crearMapa(){
 
   coordenadas = proj4(firstProjection, secondProjection, iarCoordinate);
 
-	let mapa = L.map('map').setView([coordenadas[1], coordenadas[0]], 16);
+	let mapa = L.map('map').setView([coordenadas[1], coordenadas[0]], 17);
 	let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
         L.tileLayer(tilerMapUrl, {
             attribution: 'ÒwÓ > UwU',
@@ -405,7 +405,7 @@ function crearMapa(){
   
   var punto = new L.Marker([coordenadas[1], coordenadas[0]]);
   punto.addTo(mapa);
-  punto.bindPopup(nombre);
+  punto.bindPopup(nombre).openPopup();
 }
 
 function eliminarMapa(){
