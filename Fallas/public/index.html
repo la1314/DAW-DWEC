@@ -14,6 +14,10 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.0/proj4-src.js"></script>
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.1.1/masonry.pkgd.min.js"></script>
+  <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+
 
   <style>
     @import url("css/busqueda.css");
@@ -48,11 +52,11 @@
     
   </div>
 
-  <div class="grid">
+  <div class="masonry-wrapper">
+    <div class="masonry">
+    </div>
   </div>
-
-
-
+  <script src="js/masonry.js"></script>
 </body>
 
 </html>

@@ -115,7 +115,7 @@ function removerItem(vector, item) {
 // Crea cuadros tomando en cuenta la demografia seleccionada tomando como base los datos pasados
 function creacionCuadros(demografia, datosFalla) {
 
-  let myNode = document.querySelector(".grid");
+  let myNode = document.querySelector(".masonry");
   while (myNode.firstChild) {
     myNode.removeChild(myNode.firstChild);
   }
@@ -135,18 +135,18 @@ function creacionCuadros(demografia, datosFalla) {
 
     // Creamos el cuadro de cada falla
     let cuadro = document.createElement('div');
-    let boceto = document.createElement('div');
+    let boceto = document.createElement('img');
     let divNombre = document.createElement('div');
     let nombre = document.createElement('p');
     let ubicacion = document.createElement('button');
     let puntuacion = document.createElement('button');
 
-    cuadro.classList.add('grid-item');
-    boceto.classList.add('imagenes');
-    divNombre.classList.add('nombres');
+    cuadro.classList.add('masonry-item');
+    boceto.classList.add('masonry-content');
+   /*  divNombre.classList.add('nombres');
     ubicacion.classList.add('botonesFallas');
     puntuacion.classList.add('botonesFallas');
-    nombre.id = 'C' + iterador;
+    nombre.id = 'C' + iterador; */
 
     if (demografia == 'children') {
       boceto.style.backgroundImage = 'url("' + falla.properties.boceto_i + '")';
@@ -154,26 +154,26 @@ function creacionCuadros(demografia, datosFalla) {
       boceto.style.backgroundImage = 'url("' + falla.properties.boceto + '")';
     }
 
-    nombre.innerHTML = falla.properties.nombre;
+  /*   nombre.innerHTML = falla.properties.nombre;
     //TODO implementar ubicacion
     ubicacion.innerHTML = "Ubicación";
     ubicacion.value = iterador;
     ubicacion.addEventListener('click', crearMapa);
-
+ */
     // Apartado putnuación
-    puntuacion.innerHTML = 'Crear Puntuación';
+ /*    puntuacion.innerHTML = 'Crear Puntuación';
     puntuacion.name = 'C' + iterador;
     puntuacion.value = 1;
     puntuacion.addEventListener('click', crearPuntuacion);
+ */
 
-
-    divNombre.appendChild(nombre);
+    /* divNombre.appendChild(nombre); */
     cuadro.appendChild(boceto);
-    cuadro.appendChild(divNombre);
-    cuadro.appendChild(ubicacion);
-    cuadro.appendChild(puntuacion);
+  /*   cuadro.appendChild(divNombre);
+    cuadro.appendChild(ubicacion); 
+    cuadro.appendChild(puntuacion);*/
 
-    document.querySelector(".grid").appendChild(cuadro);
+    document.querySelector(".masonry").appendChild(cuadro);
     iterador++;
   });
 }
