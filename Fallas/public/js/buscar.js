@@ -375,9 +375,19 @@ function crearMapa(){
   let longitud = ubicaciones[this.value].longitud;
   let latitud = ubicaciones[this.value].latitud;
   
+  let contenedorMapa = document.createElement('div');
+  let boton = document.createElement('button');
   let divMapa = document.createElement('div');
+
+  contenedorMapa.id = 'divMapa';
+  boton.id = 'cerrarMapa';
+  boton.innerText = 'X';
   divMapa.id = 'map';
-  document.getElementById('busqueda').appendChild(divMapa);
+  boton.addEventListener('click', eliminarMapa);
+  contenedorMapa.appendChild(boton);
+  contenedorMapa.appendChild(divMapa);
+
+  document.getElementById('busqueda').appendChild(contenedorMapa);
 
   let firstProjection  = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
 	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
@@ -400,7 +410,7 @@ function crearMapa(){
 
 function eliminarMapa(){
   
-  let div = document.getElementById('map');
+  let div = document.getElementById('divMapa');
 
   if (div !== null) {
 
