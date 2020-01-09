@@ -29,11 +29,11 @@ function sortAlphaNum(a, b) {
 }
 
 //Función que elimina los elementos duplicados de un array
-Array.prototype.unique = function(a) {
-  return function() {
+Array.prototype.unique = function (a) {
+  return function () {
     return this.filter(a)
   }
-}(function(a, b, c) {
+}(function (a, b, c) {
   return c.indexOf(a, b + 1) < 0
 });
 
@@ -101,14 +101,14 @@ function filtroSecciones(datos) {
 
 //Función que obtiene la ip pública del cliente
 function getIPAddress() {
-  $.getJSON("https://jsonip.com?callback=?", function(data) {
+  $.getJSON("https://jsonip.com?callback=?", function (data) {
     ipHost = data.ip;
   });
 };
 
 // Elimina un elemento de un arrray
 function removerItem(vector, item) {
-  return vector.filter(function(e) {
+  return vector.filter(function (e) {
     return e !== item;
   });
 };
@@ -140,15 +140,15 @@ function creacionCuadros(demografia, datosFalla) {
     let divNombre = document.createElement('div');
     let nombre = document.createElement('p');
     let ubicacion = document.createElement('button');
-    let puntuacion = document.createElement('button');
+    let contenedorVotos = document.createElement('div');
 
     cuadro.classList.add('cuadro');
     boceto.classList.add('imagenes');
     divNombre.classList.add('nombres');
     ubicacion.classList.add('botonesFallas');
-    puntuacion.classList.add('botonesFallas');
-    nombre.id = 'C' + iterador;
+    contenedorVotos.classList.add('contenedorVotos');
 
+    nombre.id = 'C' + iterador;
     if (demografia == 'children') {
       boceto.style.backgroundImage = 'url("' + falla.properties.boceto_i + '")';
     } else if (demografia == 'adult') {
@@ -156,23 +156,29 @@ function creacionCuadros(demografia, datosFalla) {
     }
 
     nombre.innerHTML = falla.properties.nombre;
-    //TODO implementar ubicacion
+    
+    //Apartado Ubicación
     ubicacion.innerHTML = "Ubicación";
     ubicacion.value = iterador;
     ubicacion.addEventListener('click', crearMapa);
 
-    // Apartado putnuación
-    puntuacion.innerHTML = 'Crear Puntuación';
-    puntuacion.name = 'C' + iterador;
-    puntuacion.value = 1;
-    puntuacion.addEventListener('click', crearPuntuacion);
-
-
     divNombre.appendChild(nombre);
     cuadro.appendChild(boceto);
     cuadro.appendChild(divNombre);
-    cuadro.appendChild(ubicacion); 
-    cuadro.appendChild(puntuacion);
+    cuadro.appendChild(ubicacion);
+
+    // Apartado putnuación
+    for (let index = 0; index < 3; index++) {
+
+      let puntuacion = document.createElement('vote');
+      puntuacion.classList.add('voto');
+      puntuacion.name = 'C' + iterador;
+      puntuacion.value = index+1;
+      puntuacion.addEventListener('click', crearPuntuacion);
+      contenedorVotos.appendChild(puntuacion);
+    }
+    
+    cuadro.appendChild(contenedorVotos);
 
     document.querySelector(".resultados").appendChild(cuadro);
     iterador++;
@@ -334,7 +340,7 @@ function comprobarVotacion(puntuacion) {
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
 
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       if (xhr.responseText == "") {
@@ -357,7 +363,7 @@ function crearVotacion(puntuacion) {
 
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
 
     if (xhr.readyState === 4 && xhr.status === 200) {
       //Añadido
@@ -377,10 +383,10 @@ function obtenerPuntuaciones() {
   xhr.open("GET", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
 
-  xhr.onreadystatechange = function() {
+  xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
-      let json=JSON.parse(xhr.responseText);   
+      let json = JSON.parse(xhr.responseText);
       filtrarPuntuacion(json);
 
     }
@@ -390,25 +396,25 @@ function obtenerPuntuaciones() {
 }
 
 function filtrarPuntuacion(puntuaciones) {
-  
+
   let filtrado;
   filtrado = puntuaciones.filter(voto => voto.idFalla == 'Pintor Pasqual Capuz-Fontanars');
-  
+
   console.log(filtrado);
   console.log('--------');
   console.log(puntuaciones);
-  
+
 }
 
 //Ubicación, se requiera de coordenadas, nombre y div contenedor del mapa
-function crearMapa(){
+function crearMapa() {
 
   eliminarMapa();
 
   let nombre = ubicaciones[this.value].nombre;
   let longitud = ubicaciones[this.value].longitud;
   let latitud = ubicaciones[this.value].latitud;
-  
+
   let contenedorMapa = document.createElement('div');
   let boton = document.createElement('button');
   let divMapa = document.createElement('div');
@@ -423,27 +429,27 @@ function crearMapa(){
 
   document.getElementById('busqueda').appendChild(contenedorMapa);
 
-  let firstProjection  = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
-	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
+  let firstProjection = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
+  let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
   let iarCoordinate = [longitud, latitud];
 
   coordenadas = proj4(firstProjection, secondProjection, iarCoordinate);
 
-	let mapa = L.map('map').setView([coordenadas[1], coordenadas[0]], 17);
-	let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
-        L.tileLayer(tilerMapUrl, {
-            attribution: 'ÒwÓ > UwU',
-		}).addTo(mapa);
-		
-	L.marker(coordenadas).addTo(mapa);
-  
+  let mapa = L.map('map').setView([coordenadas[1], coordenadas[0]], 17);
+  let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
+  L.tileLayer(tilerMapUrl, {
+    attribution: 'ÒwÓ > UwU',
+  }).addTo(mapa);
+
+  L.marker(coordenadas).addTo(mapa);
+
   var punto = new L.Marker([coordenadas[1], coordenadas[0]]);
   punto.addTo(mapa);
   punto.bindPopup(nombre).openPopup();
 }
 
-function eliminarMapa(){
-  
+function eliminarMapa() {
+
   let div = document.getElementById('divMapa');
 
   if (div !== null) {

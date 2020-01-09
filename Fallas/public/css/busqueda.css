@@ -107,6 +107,27 @@ input[type=number] {
   font-size: 20px;
 }
 
+.contenedorVotos {
+  width: 100%;
+  height: 80px;
+}
+
+vote {
+  background-color: blue;
+  height: 70px;
+  width: 70px;
+}
+
+.voto {
+  background-color: blueviolet;
+  background-size: 100% 100%;
+}
+
+.votado {
+  background-image: url("../img/flame_2.png");
+  background-size: 100% 100%;
+}
+
 .botonesFallas {
   display: grid;
   align-self: center;
