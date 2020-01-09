@@ -11,6 +11,7 @@ let fallasValencia;
 let estadoActual;
 let ipHost;
 let ubicaciones = new Array();
+let getPuntuaciones;
 
 //Función que ordena de forma alfanumérica los elementos de un array
 function sortAlphaNum(a, b) {
@@ -366,6 +367,39 @@ function crearVotacion(puntuacion) {
   xhr.send(puntuacion);
 }
 
+//Obtiene todas las puntuaciones
+
+function obtenerPuntuaciones() {
+
+  let query = 'http://localhost:3000/api/puntuaciones';
+  let xhr = new XMLHttpRequest();
+
+  xhr.open("GET", query, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+
+      let json=JSON.parse(xhr.responseText);   
+      filtrarPuntuacion(json);
+
+    }
+  };
+
+  xhr.send('');
+}
+
+function filtrarPuntuacion(puntuaciones) {
+  
+  let filtrado;
+  filtrado = puntuaciones.filter(voto => voto.idFalla == 'Pintor Pasqual Capuz-Fontanars');
+  
+  console.log(filtrado);
+  console.log('--------');
+  console.log(puntuaciones);
+  
+}
+
 //Ubicación, se requiera de coordenadas, nombre y div contenedor del mapa
 function crearMapa(){
 
@@ -433,6 +467,7 @@ function init() {
     fallasValencia = respuesta.features
     porDefecto(fallasValencia);
     getIPAddress();
+    obtenerPuntuaciones();
 
   });
 
