@@ -1,5 +1,4 @@
-$font-stack: Helvetica,
-sans-serif;
+$font-stack: Helvetica, sans-serif;
 $primary-color: #444;
 $font-color: #DDD;
 
@@ -24,17 +23,15 @@ h1 {
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
+
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
-
-
 
 #busqueda {
-
   margin-bottom: 15px;
   display: grid;
   height: 100%;
@@ -43,12 +40,11 @@ input[type="number"] {
   margin-right: auto;
 }
 
-
-#divMapa, #map {
+#divMapa,
+#map {
   z-index: 80;
   width: 450px;
   height: 450px;
-
   position: fixed;
   top: 50%;
   left: 50%;
@@ -67,7 +63,6 @@ input[type="number"] {
 }
 
 .resultados {
-
   padding: 0;
   display: grid;
   height: 100%;
@@ -82,17 +77,15 @@ input[type="number"] {
 
 .cuadrado {
 
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 25vw;
   background-color: #5e5646;
   border-radius: 12px 12px 12px 12px;
   border: 2px solid #7d828c;
-
-  
-  display: inline-block;
-  margin: 0 0 1em;
   width: 100%;
+
 }
 
 .botones {
@@ -100,23 +93,19 @@ input[type="number"] {
   height: 50px;
 }
 
-
-
+.botonesFallas,
 .imagenes,
-.nombres,
-.botonesFallas {
-
-  place-self: center;
+.nombres {
   width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .imagenes {
-
+  background-repeat: no-repeat;
   margin-top: 5px;
-  background-size: 100% auto ;
-  height: 70vh;
-
-
+  background-size: 100% 100%;
+  height: 55vh;
 }
 
 .nombres {
@@ -132,21 +121,20 @@ input[type="number"] {
 }
 
 .botonesFallas {
-
+  display: grid;
+  align-self: center;
   width: 30%;
   height: 35px;
   margin-bottom: 5px;
 }
+
 /* Samsung Galaxy S5 ----------- */
 @media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 3) {
   /* Styles */
   .resultados {
     grid-template-columns: repeat(3, 1fr);
-
-  
   }
 }
-
 @media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 3) {
   /* Styles */
   .resultados {
@@ -157,48 +145,27 @@ input[type="number"] {
     width: 70vw;
   }
 }
-
-
 @media not all and (min-width:641px) {
-
   /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
   .resultados {
-    grid-template-columns: repeat(3, 1fr); 
-
-
+    grid-template-columns: repeat(3, 1fr);
   }
-
 }
-
-
 @media not all and (min-width:961px) {
-
   /* tablet, landscape iPad, lo-res laptops ands desktops */
   .resultados {
     grid-template-columns: 1fr;
-    
   }
-
 }
-
 @media (min-width:1025px) {
-
   /* big landscape tablets, laptops, and desktops */
   .resultados {
-     grid-template-columns: repeat(3, 1fr); 
-  
+    grid-template-columns: repeat(3, 1fr);
   }
-
 }
-
 @media (min-width:1281px) {
-
   /* hi-res laptops and desktops */
   .resultados {
-     grid-template-columns: repeat(3, 1fr); 
- 
+    grid-template-columns: repeat(3, 1fr);
   }
- 
 }
-
-
