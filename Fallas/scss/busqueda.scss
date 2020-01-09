@@ -121,31 +121,49 @@ input[type="number"] {
 }
 
 .contenedorVotos {
- 
+  
+  display: flex;
+  flex-direction: row;
   width: 100%;
-  height: 80px;
+  height: 60px;
 
 }
 
 vote {
 
-  background-color: blue;
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
 }
 
 .voto {
 
-  //background-image: url('../img/flame_1.png');
-  background-color: blueviolet;
+  background-image: url('../img/flame_1.png'); 
   background-size: 100% 100%;
 
 }
 
 .votado {
+
   background-image: url('../img/flame_2.png');
   background-size: 100% 100%;
- 
+}
+
+.contador {
+
+  display: grid;
+  margin-left: auto;
+  margin-right: 0;
+  color: white;
+  background-color: cadetblue;
+  height: 50px;
+  width: 50px;
+
+  p {
+    place-self: center;
+    font-size: 20px;
+    margin: 0;
+  }
+
 }
 
 .botonesFallas {

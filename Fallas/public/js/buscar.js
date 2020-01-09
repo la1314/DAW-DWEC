@@ -141,12 +141,14 @@ function creacionCuadros(demografia, datosFalla) {
     let nombre = document.createElement('p');
     let ubicacion = document.createElement('button');
     let contenedorVotos = document.createElement('div');
+    let contador = document.createElement('div');
 
     cuadro.classList.add('cuadro');
     boceto.classList.add('imagenes');
     divNombre.classList.add('nombres');
     ubicacion.classList.add('botonesFallas');
     contenedorVotos.classList.add('contenedorVotos');
+    contador.classList.add('contador');
 
     nombre.id = 'C' + iterador;
     if (demografia == 'children') {
@@ -156,7 +158,7 @@ function creacionCuadros(demografia, datosFalla) {
     }
 
     nombre.innerHTML = falla.properties.nombre;
-    
+
     //Apartado Ubicación
     ubicacion.innerHTML = "Ubicación";
     ubicacion.value = iterador;
@@ -173,16 +175,23 @@ function creacionCuadros(demografia, datosFalla) {
       let puntuacion = document.createElement('vote');
       puntuacion.classList.add('voto');
       puntuacion.name = 'C' + iterador;
-      puntuacion.value = index+1;
+      puntuacion.value = index + 1;
       puntuacion.addEventListener('click', crearPuntuacion);
       contenedorVotos.appendChild(puntuacion);
     }
-    
+
+    let number = document.createElement('p');
+    number.innerText = 0;
+    contador.appendChild(number);
+
+    contenedorVotos.appendChild(contador);
     cuadro.appendChild(contenedorVotos);
+
 
     document.querySelector(".resultados").appendChild(cuadro);
     iterador++;
   });
+
 }
 
 //funcioón que se encarga de dibujar los cuardros de las fallas a este se le pasa como parámetros los datos a dibujar y la demografia de a seleccionar para mostrarlos por pantalla
@@ -374,7 +383,8 @@ function crearVotacion(puntuacion) {
 }
 
 //Obtiene todas las puntuaciones
-
+//Probablemente tenga que pedir la query como promesa para poder guardarla
+// en una variable
 function obtenerPuntuaciones() {
 
   let query = 'http://localhost:3000/api/puntuaciones';
@@ -395,10 +405,15 @@ function obtenerPuntuaciones() {
   xhr.send('');
 }
 
+//Obtener puntuaciones atraves de las ubicaciones guardadas de esta forna al filtrar se minimizara 
+// las consultas a la base de datos, en cada consulta se ha de buscar el retorno mediante foreach calculando la media
+// y escribiendola en el html
 function filtrarPuntuacion(puntuaciones) {
 
   let filtrado;
   filtrado = puntuaciones.filter(voto => voto.idFalla == 'Pintor Pasqual Capuz-Fontanars');
+
+  console.log(ubicaciones);
 
   console.log(filtrado);
   console.log('--------');
@@ -436,6 +451,7 @@ function crearMapa() {
   coordenadas = proj4(firstProjection, secondProjection, iarCoordinate);
 
   let mapa = L.map('map').setView([coordenadas[1], coordenadas[0]], 17);
+
   let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
   L.tileLayer(tilerMapUrl, {
     attribution: 'ÒwÓ > UwU',
@@ -459,6 +475,10 @@ function eliminarMapa() {
   }
 }
 
+function asignarFallas(respuesta) {
+  fallasValencia = respuesta.features
+}
+
 function init() {
 
   const fetchPromesa = fetch(fallasValenciaURL);
@@ -470,11 +490,16 @@ function init() {
     // Y entonces
   }).then(respuesta => {
 
-    fallasValencia = respuesta.features
-    porDefecto(fallasValencia);
-    getIPAddress();
-    obtenerPuntuaciones();
+    /* Promise.resolve(asignarFallas(respuesta)).then(function(value) {
+      obtenerPuntuaciones();
+    }, function(value) {
+      // no es llamada
+    }); */
 
+    asignarFallas(respuesta);
+    getIPAddress();
+    porDefecto(fallasValencia)
+    obtenerPuntuaciones();
   });
 
   // Binding de los eventos correspondientes.
