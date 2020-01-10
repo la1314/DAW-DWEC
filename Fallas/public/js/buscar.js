@@ -391,16 +391,13 @@ function dibujarNumeroPuntuaciones(nombre, idDiv) {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       let jsonData = JSON.parse(xhr.responseText);
-      let divVotos = document.getElementById(idDiv);
-
-      console.log(divVotos);
-      
-
-      for (let index = 0; index < jsonData.puntuacion.length; index++) {
+      let divVotos = document.getElementById(idDiv).querySelectorAll('.voto');
+         
+      for (let index = 0; index < jsonData.puntuacion; index++) {
         
-
+        divVotos[index].classList.add('votado');
         
-      }
+      } 
 
     }
   };
@@ -472,7 +469,7 @@ function dibujarPuntuaciones(puntuaciones) {
 
       let media = puntuacion / numeroVotaciones;
 
-      document.getElementById(id.idPuntuacion).innerHTML = media;
+      document.getElementById(id.idPuntuacion).innerHTML = Math.round(media * 100) / 100;
       dibujarNumeroPuntuaciones(id.nombre, id.divPuntuacion);
       
     }
