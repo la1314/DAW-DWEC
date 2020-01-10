@@ -132,6 +132,7 @@ function creacionCuadros(demografia, datosFalla) {
     ubicacionFalla.nombre = falla.properties.nombre;
     ubicacionFalla.longitud = falla.geometry.coordinates[0];
     ubicacionFalla.latitud = falla.geometry.coordinates[1];
+    ubicacionFalla.idPuntuacion = 'ID' + iterador;
     ubicaciones.push(ubicacionFalla);
 
     // Creamos el cuadro de cada falla
@@ -181,12 +182,12 @@ function creacionCuadros(demografia, datosFalla) {
     }
 
     let number = document.createElement('p');
+    number.id = 'ID' + iterador;
     number.innerText = 0;
     contador.appendChild(number);
 
     contenedorVotos.appendChild(contador);
     cuadro.appendChild(contenedorVotos);
-
 
     document.querySelector(".resultados").appendChild(cuadro);
     iterador++;
@@ -353,14 +354,47 @@ function comprobarVotacion(puntuacion) {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       if (xhr.responseText == "") {
+
         //No existe por lo que se procede a crear la puntuacion
-        crearVotacion(puntuacion)
+        Promise.resolve(crearVotacion(puntuacion)).then(function (value) {
+          obtenerPuntuaciones();
+        }, function (value) {
+          // no es llamada
+        });
       }
     }
   };
 
   xhr.send(puntuacion);
 
+}
+
+//
+function obtenerNumeroPuntuaciones(nombre) {
+
+
+
+  let consulta = JSON.stringify({
+    'idFalla': nombre,
+    'ip': ipHost
+  });
+
+  let query = 'http://localhost:3000/api/puntuaciones/encontrar';
+  let xhr = new XMLHttpRequest();
+
+  xhr.open("POST", query, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+
+      let jsonData = JSON.parse(xhr.responseText);
+      console.log(jsonData);
+
+    }
+  };
+
+  xhr.send(consulta);
 }
 
 //Añade a la base de datos la votación
@@ -397,7 +431,7 @@ function obtenerPuntuaciones() {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       let json = JSON.parse(xhr.responseText);
-      filtrarPuntuacion(json);
+      dibujarPuntuaciones(json);
 
     }
   };
@@ -405,19 +439,37 @@ function obtenerPuntuaciones() {
   xhr.send('');
 }
 
-//Obtener puntuaciones atraves de las ubicaciones guardadas de esta forna al filtrar se minimizara 
+//Obtener puntuaciones atraves de las ubicaciones guardadas de esta forma al filtrar se minimizara 
 // las consultas a la base de datos, en cada consulta se ha de buscar el retorno mediante foreach calculando la media
 // y escribiendola en el html
-function filtrarPuntuacion(puntuaciones) {
+function dibujarPuntuaciones(puntuaciones) {
 
-  let filtrado;
-  filtrado = puntuaciones.filter(voto => voto.idFalla == 'Pintor Pasqual Capuz-Fontanars');
+  ubicaciones.forEach(id => {
 
-  console.log(ubicaciones);
+    let filtro = puntuaciones.filter(voto => voto.idFalla == id.nombre);
 
-  console.log(filtrado);
-  console.log('--------');
-  console.log(puntuaciones);
+    if (filtro.length !== 0) {
+
+      let numeroVotaciones = filtro.length;
+      let puntuacion = 0;
+
+      filtro.forEach(puntos => {
+
+        puntuacion += puntos.puntuacion;
+
+      });
+
+      let media = puntuacion / numeroVotaciones;
+
+      document.getElementById(id.idPuntuacion).innerHTML = media;
+
+      console.log(id.nombre + " " + ipHost);
+      
+      obtenerNumeroPuntuaciones(id.nombre);
+
+
+    }
+  });
 
 }
 
@@ -497,9 +549,17 @@ function init() {
     }); */
 
     asignarFallas(respuesta);
-    getIPAddress();
-    porDefecto(fallasValencia)
-    obtenerPuntuaciones();
+    porDefecto(fallasValencia);
+
+    Promise.resolve(getIPAddress()).then(function(value) {
+      
+      obtenerPuntuaciones();
+      console.log(ipHost);
+
+      
+    }, function(value) {
+      // no es llamada
+    });
   });
 
   // Binding de los eventos correspondientes.
