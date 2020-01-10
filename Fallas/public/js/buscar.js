@@ -47,6 +47,13 @@ function filtroLetra(elemento) {
 }
 
 
+//Función que obtiene la ip pública del cliente
+function getIPAddress() {
+  $.getJSON("https://jsonip.com?callback=?", function (data) {
+    ipHost = data.ip;
+  });
+};
+
 // Pasa a mayuscula el texto de propio input
 // se lanza cada vez que se realiza una insercion en
 // el texto del nombre.
@@ -99,12 +106,7 @@ function filtroSecciones(datos) {
   return secciones;
 }
 
-//Función que obtiene la ip pública del cliente
-function getIPAddress() {
-  $.getJSON("https://jsonip.com?callback=?", function (data) {
-    ipHost = data.ip;
-  });
-};
+
 
 // Elimina un elemento de un arrray
 function removerItem(vector, item) {
@@ -133,6 +135,7 @@ function creacionCuadros(demografia, datosFalla) {
     ubicacionFalla.longitud = falla.geometry.coordinates[0];
     ubicacionFalla.latitud = falla.geometry.coordinates[1];
     ubicacionFalla.idPuntuacion = 'ID' + iterador;
+    ubicacionFalla.divPuntuacion = 'IDP' + iterador;
     ubicaciones.push(ubicacionFalla);
 
     // Creamos el cuadro de cada falla
@@ -187,6 +190,7 @@ function creacionCuadros(demografia, datosFalla) {
     contador.appendChild(number);
 
     contenedorVotos.appendChild(contador);
+    contenedorVotos.id = 'IDP' + iterador;
     cuadro.appendChild(contenedorVotos);
 
     document.querySelector(".resultados").appendChild(cuadro);
@@ -370,9 +374,7 @@ function comprobarVotacion(puntuacion) {
 }
 
 //
-function obtenerNumeroPuntuaciones(nombre) {
-
-
+function dibujarNumeroPuntuaciones(nombre, idDiv) {
 
   let consulta = JSON.stringify({
     'idFalla': nombre,
@@ -389,7 +391,16 @@ function obtenerNumeroPuntuaciones(nombre) {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       let jsonData = JSON.parse(xhr.responseText);
-      console.log(jsonData);
+      let divVotos = document.getElementById(idDiv);
+
+      console.log(divVotos);
+      
+
+      for (let index = 0; index < jsonData.puntuacion.length; index++) {
+        
+
+        
+      }
 
     }
   };
@@ -462,12 +473,8 @@ function dibujarPuntuaciones(puntuaciones) {
       let media = puntuacion / numeroVotaciones;
 
       document.getElementById(id.idPuntuacion).innerHTML = media;
-
-      console.log(id.nombre + " " + ipHost);
+      dibujarNumeroPuntuaciones(id.nombre, id.divPuntuacion);
       
-      obtenerNumeroPuntuaciones(id.nombre);
-
-
     }
   });
 
@@ -542,24 +549,33 @@ function init() {
     // Y entonces
   }).then(respuesta => {
 
-    /* Promise.resolve(asignarFallas(respuesta)).then(function(value) {
-      obtenerPuntuaciones();
-    }, function(value) {
-      // no es llamada
-    }); */
+    //asignarFallas(respuesta);
+    Promise.resolve(asignarFallas(respuesta)).then(function (value) {
 
-    asignarFallas(respuesta);
-    porDefecto(fallasValencia);
+      porDefecto(fallasValencia);
 
-    Promise.resolve(getIPAddress()).then(function(value) {
-      
-      obtenerPuntuaciones();
-      console.log(ipHost);
 
-      
-    }, function(value) {
-      // no es llamada
+    }).then(respuesta => {
+
+      const fetchIp = fetch('https://api.ipify.org?format=json');
+      fetchIp.then(response => {
+        return response.json();
+      }).then(respuesta => {
+
+        ipHost = respuesta.ip;
+        obtenerPuntuaciones();
+
+      });
     });
+
+
+
+
+
+    //obtenerPuntuaciones();
+
+
+
   });
 
   // Binding de los eventos correspondientes.
