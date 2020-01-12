@@ -174,7 +174,7 @@ function creacionCuadros(demografia, datosFalla) {
     cuadro.appendChild(ubicacion);
 
     // Apartado putnuación
-    for (let index = 0; index < 3; index++) {
+    for (let index = 0; index < 5; index++) {
 
       let puntuacion = document.createElement('vote');
       puntuacion.classList.add('voto');
@@ -529,6 +529,19 @@ function asignarFallas(respuesta) {
   fallasValencia = respuesta.features
 }
 
+
+function desplegarMenu() {
+
+  let contenedorBusqueda = document.getElementById('busqueda');
+
+  if (contenedorBusqueda.style.display == 'inline') {
+      contenedorBusqueda.style.display = 'none';
+  } else {
+      contenedorBusqueda.style.display = 'inline';
+  }
+
+}
+
 function init() {
 
   const fetchPromesa = fetch(fallasValenciaURL);
@@ -566,6 +579,7 @@ function init() {
   document.querySelector('input[name="fechaHasta"]').addEventListener('change', filtroHasta);
   document.querySelector('button[name="reinicio"]').addEventListener('click', porDefecto);
   document.getElementById('sections').addEventListener('change', mostrarSeccion);
+  document.getElementById('logo').addEventListener('click', desplegarMenu);
 }
 
 // The mother of the lamb.

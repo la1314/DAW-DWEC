@@ -7,7 +7,7 @@ module.exports = (app) => {
     // Retrieve all puntuaciones
     app.get('/api/puntuaciones', puntuaciones.findAll);
 
-    // Retrieve all puntuaciones
+    // Delete all puntuaciones
     app.get('/api/puntuaciones/limpiar', puntuaciones.limpiar);
 
     // Retrieve a single puntuaciones with puntuacionId
