@@ -432,6 +432,13 @@ function dibujarPuntuaciones(puntuaciones) {
       let media = puntuacion / numeroVotaciones;
 
       document.getElementById(id.idPuntuacion).innerHTML = Math.round(media * 100) / 100;
+
+      if (media >= 4) {
+
+        let cuadro = document.getElementById(id.divPuntuacion).parentNode;
+        cuadro.classList.add('resaltado');
+      }
+
       dibujarNumeroPuntuaciones(id.nombre, id.divPuntuacion);
     }
 
@@ -533,11 +540,10 @@ function asignarFallas(respuesta) {
 function desplegarMenu() {
 
   let contenedorBusqueda = document.getElementById('busqueda');
-
   if (contenedorBusqueda.style.display == 'inline') {
-      contenedorBusqueda.style.display = 'none';
+    contenedorBusqueda.style.display = 'none';
   } else {
-      contenedorBusqueda.style.display = 'inline';
+    contenedorBusqueda.style.display = 'inline';
   }
 
 }
