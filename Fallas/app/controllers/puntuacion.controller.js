@@ -41,6 +41,45 @@ exports.create = (req, res) => {
   });
 };
 
+exports.limpiar = (req, res) => {
+
+  Puntuacion.find().then(puntuaciones => {
+
+    puntuaciones.forEach(dato => {
+
+      Puntuacion.findByIdAndRemove(dato._id)
+        .then(puntuacion => {
+          if (!puntuacion) {
+            return res.status(404).send({
+              message: "Puntiación no encontrado " + req.params.puntuacionId
+            });
+          }
+
+
+        }).catch(err => {
+          if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+            return res.status(404).send({
+              message: "Puntuación not found with id " + req.params.puntuacionId
+            });
+          }
+          return res.status(500).send({
+            message: "No se puede encontrar una Puntuación con id " + req.params.puntuacionId
+          });
+        });
+    })
+
+    res.send({
+      message: "BD Limpia"
+    });
+
+  }).catch(err => {
+    res.status(500).send({
+      message: err.message || " Algo fue mal mientras los capturabamos a todos"
+    });
+  });
+
+
+};
 // Delete
 exports.delete = (req, res) => {
 
@@ -66,17 +105,16 @@ exports.delete = (req, res) => {
         message: "No se puede encontrar una Puntuación con id " + req.params.puntuacionId
       });
     });
-
-
 };
+
 // https://mongodb.github.io/node-mongodb-native/markdown-docs/queries.html
 // findOne
 exports.findOne = (req, res) => {
 
   Puntuacion.findOne({
     //_id: req.params.puntuacionId
-    'idFalla' : req.body.idFalla,
-    'ip' : req.body.ip
+    'idFalla': req.body.idFalla,
+    'ip': req.body.ip
 
   }).then(puntuacion => {
 

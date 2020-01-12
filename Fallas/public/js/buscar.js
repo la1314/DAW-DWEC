@@ -29,11 +29,11 @@ function sortAlphaNum(a, b) {
 }
 
 //Función que elimina los elementos duplicados de un array
-Array.prototype.unique = function (a) {
-  return function () {
+Array.prototype.unique = function(a) {
+  return function() {
     return this.filter(a)
   }
-}(function (a, b, c) {
+}(function(a, b, c) {
   return c.indexOf(a, b + 1) < 0
 });
 
@@ -49,7 +49,7 @@ function filtroLetra(elemento) {
 
 //Función que obtiene la ip pública del cliente
 function getIPAddress() {
-  $.getJSON("https://jsonip.com?callback=?", function (data) {
+  $.getJSON("https://jsonip.com?callback=?", function(data) {
     ipHost = data.ip;
   });
 };
@@ -110,7 +110,7 @@ function filtroSecciones(datos) {
 
 // Elimina un elemento de un arrray
 function removerItem(vector, item) {
-  return vector.filter(function (e) {
+  return vector.filter(function(e) {
     return e !== item;
   });
 };
@@ -328,7 +328,6 @@ function filtroDemografia() {
 
 
 //Apartado AJAX realizar todas las peticiones y luego ponerme con las puntuaciones
-
 function crearPuntuacion() {
 
   let falla = document.getElementById(this.name);
@@ -350,59 +349,21 @@ function comprobarVotacion(puntuacion) {
 
   let query = 'http://localhost:3000/api/puntuaciones/encontrar';
   let xhr = new XMLHttpRequest();
-
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
 
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       if (xhr.responseText == "") {
 
-        //No existe por lo que se procede a crear la puntuacion
-        Promise.resolve(crearVotacion(puntuacion)).then(function (value) {
-          obtenerPuntuaciones();
-        }, function (value) {
-          // no es llamada
-        });
+        crearVotacion(puntuacion)
+
       }
     }
   };
-
   xhr.send(puntuacion);
 
-}
-
-//
-function dibujarNumeroPuntuaciones(nombre, idDiv) {
-
-  let consulta = JSON.stringify({
-    'idFalla': nombre,
-    'ip': ipHost
-  });
-
-  let query = 'http://localhost:3000/api/puntuaciones/encontrar';
-  let xhr = new XMLHttpRequest();
-
-  xhr.open("POST", query, true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-
-      let jsonData = JSON.parse(xhr.responseText);
-      let divVotos = document.getElementById(idDiv).querySelectorAll('.voto');
-         
-      for (let index = 0; index < jsonData.puntuacion; index++) {
-        
-        divVotos[index].classList.add('votado');
-        
-      } 
-
-    }
-  };
-
-  xhr.send(consulta);
 }
 
 //Añade a la base de datos la votación
@@ -414,15 +375,16 @@ function crearVotacion(puntuacion) {
 
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
 
     if (xhr.readyState === 4 && xhr.status === 200) {
-      //Añadido
+      obtenerPuntuaciones();
     }
   };
 
   xhr.send(puntuacion);
 }
+
 
 //Obtiene todas las puntuaciones
 //Probablemente tenga que pedir la query como promesa para poder guardarla
@@ -435,7 +397,7 @@ function obtenerPuntuaciones() {
   xhr.open("GET", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
 
-  xhr.onreadystatechange = function () {
+  xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
       let json = JSON.parse(xhr.responseText);
@@ -447,7 +409,7 @@ function obtenerPuntuaciones() {
   xhr.send('');
 }
 
-//Obtener puntuaciones atraves de las ubicaciones guardadas de esta forma al filtrar se minimizara 
+//Obtener puntuaciones atraves de las ubicaciones guardadas de esta forma al filtrar se minimizara
 // las consultas a la base de datos, en cada consulta se ha de buscar el retorno mediante foreach calculando la media
 // y escribiendola en el html
 function dibujarPuntuaciones(puntuaciones) {
@@ -471,10 +433,42 @@ function dibujarPuntuaciones(puntuaciones) {
 
       document.getElementById(id.idPuntuacion).innerHTML = Math.round(media * 100) / 100;
       dibujarNumeroPuntuaciones(id.nombre, id.divPuntuacion);
-      
     }
+
   });
 
+}
+
+//
+function dibujarNumeroPuntuaciones(nombre, idDiv) {
+
+  let consulta = JSON.stringify({
+    'idFalla': nombre,
+    'ip': ipHost
+  });
+
+  let query = 'http://localhost:3000/api/puntuaciones/encontrar';
+  let xhr = new XMLHttpRequest();
+
+  xhr.open("POST", query, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+
+      let jsonData = JSON.parse(xhr.responseText);
+      let divVotos = document.getElementById(idDiv).querySelectorAll('.voto');
+
+      for (let index = 0; index < jsonData.puntuacion; index++) {
+
+        divVotos[index].classList.add('votado');
+
+      }
+
+    }
+  };
+
+  xhr.send(consulta);
 }
 
 //Ubicación, se requiera de coordenadas, nombre y div contenedor del mapa
@@ -547,7 +541,7 @@ function init() {
   }).then(respuesta => {
 
     //asignarFallas(respuesta);
-    Promise.resolve(asignarFallas(respuesta)).then(function (value) {
+    Promise.resolve(asignarFallas(respuesta)).then(function(value) {
 
       porDefecto(fallasValencia);
 
@@ -564,15 +558,6 @@ function init() {
 
       });
     });
-
-
-
-
-
-    //obtenerPuntuaciones();
-
-
-
   });
 
   // Binding de los eventos correspondientes.
