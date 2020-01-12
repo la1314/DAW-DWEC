@@ -14,7 +14,7 @@ module.exports = (app) => {
     app.post('/api/puntuaciones/encontrar', puntuaciones.findOne);
 
     // Update a puntuaciones with puntuacionId
-    app.post('/api/puntuaciones/:puntuacionId', puntuaciones.update);
+    app.put('/api/puntuaciones/actualizar', puntuaciones.update);
 
     // Delete a puntuaciones with puntuacionId
     app.delete('/api/puntuaciones/:puntuacionId', puntuaciones.delete);

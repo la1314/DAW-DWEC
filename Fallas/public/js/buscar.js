@@ -352,6 +352,8 @@ function comprobarVotacion(puntuacion) {
   xhr.open("POST", query, true);
   xhr.setRequestHeader("Content-Type", "application/json");
 
+  let newPoint = JSON.parse(puntuacion);
+
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
 
@@ -359,11 +361,41 @@ function comprobarVotacion(puntuacion) {
 
         crearVotacion(puntuacion)
 
+      } else {
+
+        let queryUpdate = 'http://localhost:3000/api/puntuaciones/actualizar';
+        let json = JSON.parse(xhr.responseText);
+
+        actualizarVotacion(queryUpdate, json.idFalla, json.ip, newPoint.puntuacion)
       }
     }
   };
   xhr.send(puntuacion);
 
+}
+
+//Funcion utilizada para modificar una puntuacion ya realizada
+function actualizarVotacion(queryUpdate, nombre, ip, puntos) {
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("PUT", queryUpdate, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  let puntuacion = JSON.stringify({
+    'idFalla': nombre,
+    'ip': ip,
+    'puntuacion': puntos
+  });
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+
+      let json = JSON.parse(xhr.responseText);
+      obtenerPuntuaciones();
+
+    }
+  };
+  xhr.send(puntuacion);
 }
 
 //Añade a la base de datos la votación
@@ -432,10 +464,13 @@ function dibujarPuntuaciones(puntuaciones) {
       let media = puntuacion / numeroVotaciones;
 
       document.getElementById(id.idPuntuacion).innerHTML = Math.round(media * 100) / 100;
+      let cuadro = document.getElementById(id.divPuntuacion).parentNode;
 
+      if (cuadro.className.includes('resaltado')) {
+         cuadro.classList.remove('resaltado')
+       }
       if (media >= 4) {
 
-        let cuadro = document.getElementById(id.divPuntuacion).parentNode;
         cuadro.classList.add('resaltado');
       }
 
@@ -465,6 +500,13 @@ function dibujarNumeroPuntuaciones(nombre, idDiv) {
 
       let jsonData = JSON.parse(xhr.responseText);
       let divVotos = document.getElementById(idDiv).querySelectorAll('.voto');
+
+      divVotos.forEach(llama => {
+
+        if (llama.className.includes('votado')) {
+           llama.classList.remove('votado')
+         }
+      });
 
       for (let index = 0; index < jsonData.puntuacion; index++) {
 

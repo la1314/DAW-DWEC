@@ -133,10 +133,13 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
 
   Puntuacion.findOne({
-    _id: req.params.puntuacionId
+
+    'idFalla': req.body.idFalla,
+    'ip': req.body.ip
+
   }).then(puntuacion => {
 
-    puntuacion.idFalla = 'Modificado';
+    puntuacion.puntuacion = req.body.puntuacion
 
     puntuacion.save().then(data => {
       res.send(data);
