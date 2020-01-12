@@ -441,9 +441,7 @@ function obtenerPuntuaciones() {
   xhr.send('');
 }
 
-//Obtener puntuaciones atraves de las ubicaciones guardadas de esta forma al filtrar se minimizara
-// las consultas a la base de datos, en cada consulta se ha de buscar el retorno mediante foreach calculando la media
-// y escribiendola en el html
+//mediante datos recogidos en un JSON recorre las fallas mostradas actualmente y va dibujando las puntuaciones
 function dibujarPuntuaciones(puntuaciones) {
 
   ubicaciones.forEach(id => {
@@ -481,7 +479,7 @@ function dibujarPuntuaciones(puntuaciones) {
 
 }
 
-//
+//Mediante una consulta obtiene la puntuación que ha hecho el cliente y la refleja en llamas encendidas
 function dibujarNumeroPuntuaciones(nombre, idDiv) {
 
   let consulta = JSON.stringify({
@@ -563,6 +561,7 @@ function crearMapa() {
   punto.bindPopup(nombre).openPopup();
 }
 
+//Elimina el mapa mostrado actualmente
 function eliminarMapa() {
 
   let div = document.getElementById('divMapa');
@@ -574,11 +573,12 @@ function eliminarMapa() {
   }
 }
 
+//Asigna los features a la variable fallasValencia
 function asignarFallas(respuesta) {
   fallasValencia = respuesta.features
 }
 
-
+//Funcion cutre para simular el burger menu
 function desplegarMenu() {
 
   let contenedorBusqueda = document.getElementById('busqueda');
