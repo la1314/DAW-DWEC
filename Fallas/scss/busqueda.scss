@@ -5,7 +5,7 @@ $header-color: white;
 $border-color: black;
 $cuadro-color: #5e5646;
 $nombre-color: aquamarine;
-$empresa: EvilCorp;
+$empresa: StarbredCofe;
 
  @if $empresa == EvilCorp {
 
@@ -18,17 +18,23 @@ $empresa: EvilCorp;
 
  } @else if $empresa == StarbredCofe {
 
-   $primary-color: blue;
-   $primary-color: #444;
+   $primary-color: #285F2E;
+   $header-color: #0B1B0D;
+   $border-color: #7CA480;
+   $cuadro-color: #2E6D54;
+   $nombre-color: #6D2E67;
+   $font-color: #DDD;
  }
 
 body {
+
   font: 100% $font-stack;
   background-color: $primary-color;
   display: grid;
 }
 
 %fuente-basica {
+
   border: 1px solid gray;
   padding: 10px;
   border-radius: 10px;
@@ -36,6 +42,7 @@ body {
 }
 
 h1 {
+
   font-size: 45px;
   color: $font-color;
   text-align: center;
@@ -52,17 +59,18 @@ h1 {
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
+
   -webkit-appearance: none;
   margin: 0;
 }
 
 input[type="number"] {
+
   -moz-appearance: textfield;
 }
 
-//Burger menu
-
 #cabecera {
+
   background-color: $header-color;
   align-self: center;
   margin-left: auto;
@@ -75,9 +83,7 @@ input[type="number"] {
   position: fixed;
 }
 
-
 #logo {
-
 
   @if $empresa == EvilCorp {
 
@@ -85,7 +91,7 @@ input[type="number"] {
 
   } @else if $empresa == StarbredCofe {
 
-    background-image: url('../img/cthulhu.jpg');
+    background-image: url('../img/cthulhu.png');
   }
 
   height: 150px;
@@ -98,10 +104,10 @@ input[type="number"] {
   margin-bottom: 15px;
   height: 100%;
   width: 80%;
-
 }
 
 #busquedaform{
+
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
@@ -109,6 +115,7 @@ input[type="number"] {
 
 #divMapa,
 #map {
+
   z-index: 80;
   width: 450px;
   height: 450px;
@@ -120,6 +127,7 @@ input[type="number"] {
 }
 
 #cerrarMapa {
+
   float: right;
   position: relative;
   background-color: black;
@@ -130,6 +138,7 @@ input[type="number"] {
 }
 
 .resultados {
+
   padding: 0;
   padding-top: 160px;
   display: grid;
@@ -145,6 +154,7 @@ input[type="number"] {
 }
 
 .cuadro {
+
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -156,6 +166,7 @@ input[type="number"] {
 }
 
 .botones {
+
   width: 150px;
   height: 50px;
 }
@@ -188,6 +199,7 @@ input[type="number"] {
 }
 
 .contenedorVotos {
+
   display: flex;
   flex-direction: row;
   height: 60px;
@@ -195,6 +207,7 @@ input[type="number"] {
 }
 
 vote {
+
   height: 50px;
   width: 50px;
 }
@@ -210,6 +223,7 @@ vote {
 }
 
 .contador {
+
   display: grid;
   margin-left: auto;
   margin-right: 0;
@@ -226,6 +240,7 @@ vote {
 }
 
 .botonesFallas {
+
   display: grid;
   align-self: center;
   width: 30%;

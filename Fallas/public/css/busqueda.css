@@ -1,6 +1,6 @@
 body {
   font: 100% Helvetica, sans-serif;
-  background-color: #630F23;
+  background-color: #285F2E;
   display: grid; }
 
 h1 {
@@ -22,7 +22,7 @@ input[type="number"] {
   -moz-appearance: textfield; }
 
 #cabecera {
-  background-color: #320812;
+  background-color: #0B1B0D;
   align-self: center;
   margin-left: auto;
   margin-right: auto;
@@ -34,7 +34,7 @@ input[type="number"] {
   position: fixed; }
 
 #logo {
-  background-image: url("../img/evilcorp.png");
+  background-image: url("../img/cthulhu.png");
   height: 150px;
   width: 150px;
   background-size: 100% 100%; }
@@ -87,9 +87,9 @@ input[type="number"] {
   flex-direction: column;
   height: 100%;
   width: 20vw;
-  background-color: #887378;
+  background-color: #2E6D54;
   border-radius: 12px 12px 12px 12px;
-  border: 2px solid #190409;
+  border: 2px solid #7CA480;
   width: 100%; }
 
 .botones {
@@ -112,7 +112,7 @@ input[type="number"] {
 .nombres {
   display: grid;
   color: black;
-  background-color: #1FC69F;
+  background-color: #6D2E67;
   height: 70px; }
   .nombres p {
     place-self: center;
@@ -141,7 +141,7 @@ vote {
   margin-left: auto;
   margin-right: 0;
   color: white;
-  background-color: #1FC69F;
+  background-color: #6D2E67;
   height: 50px;
   width: 50px; }
   .contador p {
