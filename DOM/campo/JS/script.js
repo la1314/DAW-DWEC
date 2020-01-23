@@ -3,12 +3,102 @@ function cargar() {
     document.querySelectorAll('.banquillo').forEach(elemento => {
 
         elemento.addEventListener("dragover", allowDrop);
-        elemento.addEventListener("drop", drop);  
+        elemento.addEventListener("drop", drop);
     });
 
     document.querySelectorAll('.jugador').forEach(
         elemento => elemento.addEventListener("dragstart", drag)
     );
+
+    Promise.resolve(agregarSecciones()).then(function (value) {
+
+        let posiciones = document.querySelectorAll('.posicion');
+
+        posiciones.forEach(
+            elemento => elemento.addEventListener('click', mostrarValor)
+        );
+
+    });
+}
+
+function mostrarValor(e) {
+    console.log(this.value);
+}
+
+//Función que añade a las 12 seciones del campo los 
+//respectivos div para organizar las posiciones de los jugadores
+function agregarSecciones() {
+    let campo = document.getElementById('campo');
+
+    for (let index = 0; index < 12; index++) {
+
+        let seccion = document.createElement('div');
+        seccion.classList.add('seccion');
+        agregarPorision(index, seccion);
+        campo.appendChild(seccion);
+
+    }
+}
+
+//Función que dependiendo del valor del index asigna un valor identificativo al
+// div posición para usarlo posteriomente para cambiar la posición del jugador
+// soltado dentro de este div
+function agregarPorision(index, seccion) {
+
+    let posicion = document.createElement('div');
+    posicion.classList.add('posicion');
+
+    if (index == 0 || index == 11) {
+
+        posicion.value = "Portero";
+        seccion.appendChild(posicion);
+
+    } else if (index == 1 || index == 10) {
+
+        posicion.value = "Lateral Izquierdo";
+        seccion.appendChild(posicion);
+
+        posicion = document.createElement('div');
+        posicion.classList.add('posicion');
+        posicion.value = "Lateral Derecho";
+        seccion.appendChild(posicion);
+    } else if (index == 2 || index == 9) {
+
+        posicion.value = "Defensa Central";
+        seccion.appendChild(posicion);
+
+        posicion = document.createElement('div');
+        posicion.classList.add('posicion');
+        posicion.value = "Defensa Central";
+        seccion.appendChild(posicion);
+    } else if (index == 3 || index == 8) {
+
+        posicion.value = "Defensor de Medio Campo";
+        seccion.appendChild(posicion);
+    } else if (index == 4 || index == 7) {
+
+        posicion.value = "Lateral Volante Izquierdo";
+        seccion.appendChild(posicion);
+
+        posicion = document.createElement('div');
+        posicion.classList.add('posicion');
+        posicion.value = "Lateral Volante Derecho";
+        seccion.appendChild(posicion);
+    } else if (index == 5 || index == 6) {
+
+        posicion.value = "Mediocentro Izquierdo";
+        seccion.appendChild(posicion);
+
+        posicion = document.createElement('div');
+        posicion.classList.add('posicion');
+        posicion.value = "Delantero centro";
+        seccion.appendChild(posicion);
+
+        posicion = document.createElement('div');
+        posicion.classList.add('posicion');
+        posicion.value = "Mediocentro Derecho";
+        seccion.appendChild(posicion);
+    }
 
 
 }
