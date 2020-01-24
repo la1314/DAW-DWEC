@@ -1,3 +1,5 @@
+//Se llama al cargarse el HTML
+//Añade eventos y todo lo necesario para crear el campo de futbol
 function cargar() {
 
     document.querySelectorAll('.banquillo').forEach(elemento => {
@@ -13,21 +15,28 @@ function cargar() {
     Promise.resolve(agregarSecciones()).then(function (value) {
 
         let posiciones = document.querySelectorAll('.posicion');
-
         posiciones.forEach(
-            elemento => elemento.addEventListener('click', mostrarValor)
+            (elemento, index) => {
+                
+                elemento.id =  "P"+index;
+                elemento.addEventListener('click', mostrarValor);
+                elemento.addEventListener("dragover", allowDrop);
+                elemento.addEventListener("drop", drop);
+            }
         );
 
     });
 }
 
 function mostrarValor(e) {
+
     console.log(this.value);
 }
 
 //Función que añade a las 12 seciones del campo los 
 //respectivos div para organizar las posiciones de los jugadores
 function agregarSecciones() {
+
     let campo = document.getElementById('campo');
 
     for (let index = 0; index < 12; index++) {
@@ -52,6 +61,7 @@ function agregarPorision(index, seccion) {
 
         posicion.value = "Portero";
         seccion.appendChild(posicion);
+        seccion.classList.add('center');
 
     } else if (index == 1 || index == 10) {
 
@@ -62,6 +72,9 @@ function agregarPorision(index, seccion) {
         posicion.classList.add('posicion');
         posicion.value = "Lateral Derecho";
         seccion.appendChild(posicion);
+
+        seccion.classList.add('between');
+
     } else if (index == 2 || index == 9) {
 
         posicion.value = "Defensa Central";
@@ -71,10 +84,15 @@ function agregarPorision(index, seccion) {
         posicion.classList.add('posicion');
         posicion.value = "Defensa Central";
         seccion.appendChild(posicion);
+
+        seccion.classList.add('between');
+
     } else if (index == 3 || index == 8) {
 
         posicion.value = "Defensor de Medio Campo";
         seccion.appendChild(posicion);
+        seccion.classList.add('center');
+
     } else if (index == 4 || index == 7) {
 
         posicion.value = "Lateral Volante Izquierdo";
@@ -84,6 +102,8 @@ function agregarPorision(index, seccion) {
         posicion.classList.add('posicion');
         posicion.value = "Lateral Volante Derecho";
         seccion.appendChild(posicion);
+        seccion.classList.add('between');
+
     } else if (index == 5 || index == 6) {
 
         posicion.value = "Mediocentro Izquierdo";
@@ -98,8 +118,8 @@ function agregarPorision(index, seccion) {
         posicion.classList.add('posicion');
         posicion.value = "Mediocentro Derecho";
         seccion.appendChild(posicion);
+        seccion.classList.add('between');
     }
-
 
 }
 
@@ -125,9 +145,6 @@ function drop(ev) {
 
     //Guardamos el elemento, llamado "text" en una variable.
     var data = ev.dataTransfer.getData("text");
-
-    // console.log(data);
-
 
     //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
     ev.target.appendChild(document.getElementById(data));
