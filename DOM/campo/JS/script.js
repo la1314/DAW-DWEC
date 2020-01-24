@@ -8,9 +8,30 @@ function cargar() {
         elemento.addEventListener("drop", drop);
     });
 
-    document.querySelectorAll('.jugador').forEach(
-        elemento => elemento.addEventListener("dragstart", drag)
-    );
+    promesaJugadores();
+    promesaSecciones();
+   
+  
+}
+
+
+
+function mostrarValor(e) {
+ 
+    console.log(this.value);
+}
+
+function promesaJugadores() {
+    Promise.resolve(agregarJugadores()).then(function (value) {
+        document.querySelectorAll('.jugador').forEach(
+            elemento => elemento.addEventListener("dragstart", drag)
+        );
+
+    });
+
+}
+
+function promesaSecciones() {
 
     Promise.resolve(agregarSecciones()).then(function (value) {
 
@@ -19,18 +40,35 @@ function cargar() {
             (elemento, index) => {
                 
                 elemento.id =  "P"+index;
-                elemento.addEventListener('click', mostrarValor);
+                
                 elemento.addEventListener("dragover", allowDrop);
                 elemento.addEventListener("drop", drop);
+                elemento.addEventListener('drop', mostrarValor);
             }
         );
 
     });
 }
 
-function mostrarValor(e) {
+function agregarJugadores() {
 
-    console.log(this.value);
+    document.querySelectorAll('.banquillo').forEach(
+        banquillo => {
+
+            for (let index = 0; index < 11; index++) {
+                
+                let jugador = document.createElement('div');
+                jugador.classList.add('jugador');
+                jugador.draggable = true;
+                jugador.id = banquillo.id+"-"+index;
+                jugador.innerHTML = "Jugador";
+                banquillo.appendChild(jugador);
+            }
+
+            
+        }
+    );
+
 }
 
 //Función que añade a las 12 seciones del campo los 
@@ -43,6 +81,16 @@ function agregarSecciones() {
 
         let seccion = document.createElement('div');
         seccion.classList.add('seccion');
+
+        //Pensar en la implementacón de esta pedazo de mierda
+     /*    if (index < 6) {
+            seccion.name = "ZonaI";
+        } else {
+            seccion.name = "ZonaD";
+        } */
+
+        console.log(seccion.name);
+        
         agregarPorision(index, seccion);
         campo.appendChild(seccion);
 
@@ -140,12 +188,16 @@ function drag(ev) {
 
 function drop(ev) {
 
+    
+    
+
     //Evitamos el comportamiento normal del navegador, que sería abrir el elemento en una nueva pestaña.
     ev.preventDefault();
 
     //Guardamos el elemento, llamado "text" en una variable.
     var data = ev.dataTransfer.getData("text");
 
+    console.log(data);
     //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
     ev.target.appendChild(document.getElementById(data));
 
