@@ -10,11 +10,11 @@ function cargar() {
 
     promesaJugadores();
     promesaSecciones();
-   
+
 }
 
 function mostrarValor(e) {
- 
+
     //console.log(this.value);
 }
 
@@ -35,9 +35,9 @@ function promesaSecciones() {
         let posiciones = document.querySelectorAll('.posicion');
         posiciones.forEach(
             (elemento, index) => {
-                
-                elemento.id =  "P"+index;
-                
+
+                elemento.id = "P" + index;
+
                 elemento.addEventListener("dragover", allowDrop);
                 elemento.addEventListener("drop", drop);
                 elemento.addEventListener('drop', mostrarValor);
@@ -49,21 +49,31 @@ function promesaSecciones() {
 
 function agregarJugadores() {
 
+    let zona = "ZonaI";
+
     document.querySelectorAll('.banquillo').forEach(
         banquillo => {
 
+            banquillo.name = zona;
             for (let index = 0; index < 11; index++) {
-                
+
                 let jugador = document.createElement('div');
                 jugador.classList.add('jugador');
                 jugador.draggable = true;
-                jugador.id = banquillo.id+"-"+index;
+
+
+                jugador.name = zona;
+
+
+
+                jugador.id = banquillo.id + "-" + index;
                 jugador.innerHTML = "Jugador";
                 banquillo.appendChild(jugador);
             }
 
-            
+            zona = "ZonaD";
         }
+       
     );
 
 }
@@ -79,15 +89,15 @@ function agregarSecciones() {
         let seccion = document.createElement('div');
         seccion.classList.add('seccion');
 
+        agregarPorision(index, seccion);
+
         //Pensar en la implementacón de esta pedazo de mierda
-     /*    if (index < 6) {
+        if (index < 6) {
             seccion.name = "ZonaI";
         } else {
             seccion.name = "ZonaD";
-        } */
-        //console.log(seccion.name);
-        
-        agregarPorision(index, seccion);
+        }
+
         campo.appendChild(seccion);
 
     }
@@ -189,8 +199,21 @@ function drop(ev) {
     //Guardamos el elemento, llamado "text" en una variable.
     var data = ev.dataTransfer.getData("text");
 
-    //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
-    ev.target.appendChild(document.getElementById(data));
+    let jugador = document.getElementById(data).name;
+    let seccion;
+
+    if (this.className.includes('banquillo')) {
+        seccion = this.name;
+    } else {
+        seccion = document.getElementById(this.id).parentNode.name;
+    }
+  
+    console.log(seccion + "--" + jugador);
+
+    if (jugador == seccion) {
+        //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
+        ev.target.appendChild(document.getElementById(data));
+    }
 
 }
 window.addEventListener("load", cargar);
