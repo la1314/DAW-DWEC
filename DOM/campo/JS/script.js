@@ -67,7 +67,7 @@ function agregarJugadores() {
 
 
                 jugador.id = banquillo.id + "-" + index;
-                jugador.innerHTML = "Jugador";
+                jugador.innerHTML = "Jugador: " + index;
                 banquillo.appendChild(jugador);
             }
 
@@ -212,13 +212,9 @@ function drop(ev) {
         }
     }
 
-
-  
-    console.log(seccion + "--" + jugador);
-
     if (jugador == seccion && soltable) {
         //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
-        ev.target.appendChild(document.getElementById(data));
+        this.appendChild(document.getElementById(data));
     }
 
 }
