@@ -201,16 +201,22 @@ function drop(ev) {
 
     let jugador = document.getElementById(data).name;
     let seccion;
+    let soltable = true;
 
     if (this.className.includes('banquillo')) {
         seccion = this.name;
     } else {
         seccion = document.getElementById(this.id).parentNode.name;
+        if (this.hasChildNodes()) {
+            soltable = false;
+        }
     }
+
+
   
     console.log(seccion + "--" + jugador);
 
-    if (jugador == seccion) {
+    if (jugador == seccion && soltable) {
         //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
         ev.target.appendChild(document.getElementById(data));
     }
