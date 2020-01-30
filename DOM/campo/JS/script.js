@@ -11,14 +11,11 @@ function cargar() {
     promesaJugadores();
     promesaSecciones();
    
-  
 }
-
-
 
 function mostrarValor(e) {
  
-    console.log(this.value);
+    //console.log(this.value);
 }
 
 function promesaJugadores() {
@@ -88,8 +85,7 @@ function agregarSecciones() {
         } else {
             seccion.name = "ZonaD";
         } */
-
-        console.log(seccion.name);
+        //console.log(seccion.name);
         
         agregarPorision(index, seccion);
         campo.appendChild(seccion);
@@ -168,7 +164,6 @@ function agregarPorision(index, seccion) {
         seccion.appendChild(posicion);
         seccion.classList.add('between');
     }
-
 }
 
 function allowDrop(ev) {
@@ -188,16 +183,12 @@ function drag(ev) {
 
 function drop(ev) {
 
-    
-    
-
     //Evitamos el comportamiento normal del navegador, que sería abrir el elemento en una nueva pestaña.
     ev.preventDefault();
 
     //Guardamos el elemento, llamado "text" en una variable.
     var data = ev.dataTransfer.getData("text");
 
-    console.log(data);
     //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
     ev.target.appendChild(document.getElementById(data));
 
