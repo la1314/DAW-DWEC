@@ -73,7 +73,7 @@ function agregarJugadores() {
 
             zona = "ZonaD";
         }
-       
+
     );
 
 }
@@ -215,6 +215,20 @@ function drop(ev) {
     if (jugador == seccion && soltable) {
         //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
         this.appendChild(document.getElementById(data));
+    } else if (jugador == seccion && !soltable) {
+
+        //Cuando se da este If se toman los dos elementos, el reemplazo y el hijo actual
+        //Se reemplaza el hijo por el reemplazo en el div del reemplazo
+        //Para finalizar en el div de destino, (THIS) se añade el reemplazo como hijo,
+        // intercambiado así las posiciones de dos elementos
+
+        let reemplazo = document.getElementById(data);
+        let padreReemplazo = reemplazo.parentNode;
+
+        let hijo = this.firstChild;
+        
+        padreReemplazo.replaceChild(hijo,reemplazo);
+        this.appendChild(reemplazo);
     }
 
 }
