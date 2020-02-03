@@ -2,14 +2,16 @@
 //Añade eventos y todo lo necesario para crear el campo de futbol
 function cargar() {
 
+
     document.querySelectorAll('.banquillo').forEach(elemento => {
 
         elemento.addEventListener("dragover", allowDrop);
         elemento.addEventListener("drop", drop);
     });
-
-    promesaJugadores();
+   
     promesaSecciones();
+
+    consultaJugadores();
 
 }
 
@@ -18,8 +20,10 @@ function mostrarValor(e) {
     //console.log(this.value);
 }
 
-function promesaJugadores() {
-    Promise.resolve(agregarJugadores()).then(function (value) {
+function promesaJugadores(json) {
+
+    Promise.resolve(agregarJugadores(json)).then(function (value) {
+
         document.querySelectorAll('.jugador').forEach(
             elemento => elemento.addEventListener("dragstart", drag)
         );
@@ -47,35 +51,101 @@ function promesaSecciones() {
     });
 }
 
-function agregarJugadores() {
+function agregarJugadores(json) {
 
     let zona = "ZonaI";
+    let equipo;
+    let nequipo = 'Patitos';
 
     document.querySelectorAll('.banquillo').forEach(
         banquillo => {
 
             banquillo.name = zona;
-            for (let index = 0; index < 11; index++) {
+            banquillo.value = 'Banquillo';
+
+            equipo = json.filter(item => item.equipo == nequipo);
+
+            for (let index = 0; index < equipo.length; index++) {
 
                 let jugador = document.createElement('div');
                 jugador.classList.add('jugador');
                 jugador.draggable = true;
-
-
                 jugador.name = zona;
-
-
-
-                jugador.id = banquillo.id + "-" + index;
-                jugador.innerHTML = "Jugador: " + index;
+                jugador.id = equipo[index].id;
+                jugador.innerHTML = equipo[index].nombre;
                 banquillo.appendChild(jugador);
             }
 
             zona = "ZonaD";
+            nequipo = "Patatas Asesinas";
         }
 
     );
 
+}
+
+
+//Mete en un JSON un select de todos los jugadores, a la hora de colocarlos en sus respectivos
+// banquillos se ha de filtrar por equipo
+function consultaJugadores() {
+
+
+    // Obtener la instancia del objeto XMLHttpRequest
+    peticion_http = new XMLHttpRequest();
+
+    // Preparar la función de respuesta
+    peticion_http.onreadystatechange = mostrar;
+
+    // Realizar petición HTTP 
+
+    peticion_http.open('POST', 'JS/consultas.php');
+    //peticion_http.setRequestHeader("Content-Type", "multipart/form-data");
+
+    function mostrar() {
+        if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+
+            let json = JSON.parse(peticion_http.responseText);
+            //Se llama una vez 
+            console.log(json);
+            
+            promesaJugadores(json);
+
+        }
+    }
+
+    peticion_http.send();
+
+}
+
+function actualizar(posicion, id) {
+
+    console.log(posicion + " -- ID Jugador " + id);
+    
+
+    formulario = new FormData();
+    formulario.append('id',id);
+    formulario.append('posicion', posicion);
+
+    // Obtener la instancia del objeto XMLHttpRequest
+    peticion_http = new XMLHttpRequest();
+
+    // Preparar la función de respuesta
+    peticion_http.onreadystatechange = mostrar;
+
+    // Realizar petición HTTP 
+
+    peticion_http.open('POST', 'JS/update.php');
+    //peticion_http.setRequestHeader("Content-Type", "multipart/form-data");
+
+    function mostrar() {
+        if (peticion_http.readyState == 4 && peticion_http.status == 200) {
+
+            console.log(peticion_http.responseTextson);
+      
+        }
+    }
+
+    peticion_http.send(formulario);
 }
 
 //Función que añade a las 12 seciones del campo los 
@@ -199,7 +269,7 @@ function drop(ev) {
     //Guardamos el elemento, llamado "text" en una variable.
     var data = ev.dataTransfer.getData("text");
 
-    let jugador = document.getElementById(data).name;
+    let jugador = document.getElementById(data);
     let seccion;
     let soltable = true;
 
@@ -212,10 +282,12 @@ function drop(ev) {
         }
     }
 
-    if (jugador == seccion && soltable) {
+    if (jugador.name == seccion && soltable) {
         //Colgamos el elemeto arrastrado y soltado en el nuevo destino.
         this.appendChild(document.getElementById(data));
-    } else if (jugador == seccion && !soltable) {
+
+        actualizar(this.value, jugador.id);
+    } else if (jugador.name  == seccion && !soltable) {
 
         //Cuando se da este If se toman los dos elementos, el reemplazo y el hijo actual
         //Se reemplaza el hijo por el reemplazo en el div del reemplazo
@@ -226,10 +298,15 @@ function drop(ev) {
         let padreReemplazo = reemplazo.parentNode;
 
         let hijo = this.firstChild;
-        
-        padreReemplazo.replaceChild(hijo,reemplazo);
+
+        padreReemplazo.replaceChild(hijo, reemplazo);
         this.appendChild(reemplazo);
+        
+        actualizar(this.value, jugador.id);
     }
 
 }
+
+let equiposJ;
+
 window.addEventListener("load", cargar);
